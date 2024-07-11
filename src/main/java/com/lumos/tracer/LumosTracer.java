@@ -1,16 +1,6 @@
 package com.lumos.tracer;
 
-import java.io.File;
-import java.io.FileInputStream;
-
 import org.apache.log4j.Logger;
-
-// import org.apache.logging.log4j.LogManager;
-// import org.apache.logging.log4j.Logger;
-
-
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
 
 public class LumosTracer{
         public static ThreadLocal<Flag> rrOn = ThreadLocal.withInitial(() -> new Flag());
@@ -22,8 +12,6 @@ public class LumosTracer{
                 // logger = LogManager.getLogger(LumosTracer.class);
 
                 logger = Logger.getLogger(LumosTracer.class);
-
-                // System.out.println(logger.getAppender("file"));
         }
         public static void logSysOut(Object content, String tag){
                 if(checkValid()){
@@ -71,7 +59,27 @@ public class LumosTracer{
                 }
         }
 
-
+        public static void logIndexedTimedTrace(int content, int index, String tag, long start, long end){
+                if(checkValid()){
+                        toggle(false);
+                        logger.info(start + "," + end + "," + +index + "," + tag + content);
+                        toggle(true);
+                }
+        }
+        public static void logTimedTrace(int content, String tag, long start, long end){
+                if(checkValid()){
+                        toggle(false);
+                        logger.info(start + "," + end + "," + tag + content);
+                        toggle(true);
+                }
+        }
+        public static void logEmptyTimedTrace(String tag, long start, long end){
+                if(checkValid()){
+                        toggle(false);
+                        logger.info(start + "," + end + "," + tag);
+                        toggle(true);
+                }
+        }
         public static void logTrace(Object content, String tag){
                 if(checkValid()){
                         toggle(false);
@@ -159,7 +167,6 @@ public class LumosTracer{
         }
         // public static void logSysOut()
         public static void toggle(boolean on){
-                // rrOn.set(on?Boolean.TRUE: null);
                 rrOn.get().on = on;
         }
 }
