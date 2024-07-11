@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 // import org.slf4j.LoggerFactory;
 
 public class LumosTracer{
-        public static ThreadLocal<Boolean> rrOn = new ThreadLocal<>();
+        public static ThreadLocal<Flag> rrOn = ThreadLocal.withInitial(() -> new Flag());
         public static Logger logger;
         static{
                 // String propertiesFile =  "/home/jingyuan/lumos/lumos-tracer/src/main/resources/log4j.properties";
@@ -152,13 +152,14 @@ public class LumosTracer{
                 //        }
 
                 //}
-                if (rrOn.get() == null) {
-                        return false;
-                }
-                return true;
+                // if (rrOn.get().on == null) {
+                //         return false;
+                // }
+                return rrOn.get().on;
         }
         // public static void logSysOut()
         public static void toggle(boolean on){
-                rrOn.set(on?Boolean.TRUE: null);
+                // rrOn.set(on?Boolean.TRUE: null);
+                rrOn.get().on = on;
         }
 }
