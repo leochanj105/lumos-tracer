@@ -17,61 +17,61 @@ public class LumosTracer {
         }
 
         public static void logSysOut(Object content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         System.out.println(tag + content);
                 }
         }
 
         public static void logSysOut(int content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         System.out.println(tag + content);
                 }
         }
 
         public static void logSysOut(byte content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         System.out.println(tag + content);
                 }
         }
 
         public static void logSysOut(float content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         System.out.println(tag + content);
                 }
         }
 
         public static void logSysOut(double content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         System.out.println(tag + content);
                 }
         }
 
         public static void logSysOut(char content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         System.out.println(tag + content);
                 }
         }
 
         public static void logSysOut(char[] content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         System.out.println(tag + new String(content));
                 }
         }
 
         public static void logSysOut(boolean content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         System.out.println(tag + content);
                 }
         }
 
         public static void logSysOut(long content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         System.out.println(tag + content);
                 }
         }
 
         public static void logIndexedTimedTrace(Object content, int index, String tag, long start, long end) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(start + "," + end + "," + +index + "," + tag + "," +  System.identityHashCode(content));
                         toggle(true);
@@ -79,7 +79,7 @@ public class LumosTracer {
         }
 
         public static void logTimedTrace(Object content, String tag, long start, long end) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(start + "," + end + "," + tag +  "," + System.identityHashCode(content));
                         toggle(true);
@@ -87,14 +87,14 @@ public class LumosTracer {
         }
 
         public static void logEmptyTimedTrace(String tag, long start, long end) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(start + "," + end + "," + tag);
                         toggle(true);
                 }
         }
         public static void logClass(Object content, String tag){
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + content.getClass());
                         toggle(true);
@@ -102,7 +102,7 @@ public class LumosTracer {
         }
 
         public static void logAddress(Object content, String tag){
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + System.identityHashCode(content));
                         toggle(true);
@@ -110,7 +110,7 @@ public class LumosTracer {
         }
 
         public static void logTrace(Object content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + content);
                         toggle(true);
@@ -118,7 +118,7 @@ public class LumosTracer {
         }
 
         public static void logTrace(int content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + content);
                         toggle(true);
@@ -126,7 +126,7 @@ public class LumosTracer {
         }
 
         public static void logTrace(byte content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + content);
                         toggle(true);
@@ -134,7 +134,7 @@ public class LumosTracer {
         }
 
         public static void logTrace(float content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + content);
                         toggle(true);
@@ -142,7 +142,7 @@ public class LumosTracer {
         }
 
         public static void logTrace(double content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + content);
                         toggle(true);
@@ -150,7 +150,7 @@ public class LumosTracer {
         }
 
         public static void logTrace(char content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + content);
                         toggle(true);
@@ -158,15 +158,15 @@ public class LumosTracer {
         }
 
         public static void logTrace(char[] content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
-                        log(tag +  "," + new String(content));
+                        log(tag +  "," + System.identityHashCode(content));
                         toggle(true);
                 }
         }
 
         public static void logTrace(boolean content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + content);
                         toggle(true);
@@ -174,7 +174,7 @@ public class LumosTracer {
         }
 
         public static void logTrace(long content, String tag) {
-                if (checkValid()) {
+                if (isRecordingOn()) {
                         toggle(false);
                         log(tag +  "," + content);
                         toggle(true);
@@ -185,7 +185,7 @@ public class LumosTracer {
                 logger.info(Thread.currentThread().getId() + "," + s);
         }
 
-        public static boolean checkValid() {
+        public static boolean isRecordingOn() {
                 // StackTraceElement[] stack = (new Throwable()).getStackTrace();
                 // return false;
                 // 0 = checkValid, 1 = most recent logSysOut
@@ -201,9 +201,6 @@ public class LumosTracer {
                 // return false;
                 // }
 
-                // }
-                // if (rrOn.get().on == null) {
-                // return false;
                 // }
                 return rrOn.get().on;
         }
