@@ -4,7 +4,7 @@ package com.lumos.tracer;
 import org.apache.log4j.Logger;
 
 public class LumosTracer {
-        public static ThreadLocal<Flag> rrOn = ThreadLocal.withInitial(() -> new Flag());
+        public static ThreadLocal<ThreadContext> contexts = ThreadLocal.withInitial(() -> new ThreadContext());
         public static Logger logger;
         static {
                 // String propertiesFile =
@@ -185,7 +185,8 @@ public class LumosTracer {
         }
 
         public static void log(String s) {
-                logger.info(Thread.currentThread().getId() + "," + s);
+                // logger.info(Thread.currentThread().getId() + "," + s);
+                contexts.get().log(s);
         }
 
         public static boolean isRecordingOn() {
@@ -205,11 +206,11 @@ public class LumosTracer {
                 // }
 
                 // }
-                return rrOn.get().on;
+                return contexts.get().on;
         }
 
         // public static void logSysOut()
         public static void toggle(boolean on) {
-                rrOn.get().on = on;
+                contexts.get().on = on;
         }
 }
