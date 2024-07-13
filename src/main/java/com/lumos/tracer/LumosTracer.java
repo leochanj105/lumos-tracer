@@ -1,5 +1,6 @@
 package com.lumos.tracer;
 
+// import org.apache.logging.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 public class LumosTracer {
@@ -14,6 +15,8 @@ public class LumosTracer {
                 // logger = LogManager.getLogger(LumosTracer.class);
 
                 logger = Logger.getLogger(LumosTracer.class);
+                // logger = LogManager.getLogger(LumosTracer.class);
+                // System.out.println("?? " + org.apache.log4j.Layout.class.getPackage().getImplementationVersion());
         }
 
         public static void logSysOut(Object content, String tag) {
