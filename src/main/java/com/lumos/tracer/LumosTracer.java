@@ -3,22 +3,22 @@ package com.lumos.tracer;
 // import org.apache.logging.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import com.lumos.tracer.tracer.FileTracer;
+import com.lumos.tracer.tracer.SimulatedAsyncTracer;
+import com.lumos.tracer.tracer.Tracer;
+
 public class LumosTracer {
         public static ThreadLocal<ThreadContext> contexts = ThreadLocal.withInitial(() -> new ThreadContext());
-        public static Logger logger;
-        static {
-                // String propertiesFile =
-                // "/home/jingyuan/lumos/lumos-tracer/src/main/resources/log4j.properties";
-                // Configurator source = new Configurator(new FileInputStream(propertiesFile),
-                // new File(propertiesFile));
-                // Configurator.initialize(null,propertiesFile);
-                // logger = LogManager.getLogger(LumosTracer.class);
-
-                logger = Logger.getLogger(LumosTracer.class);
-                // logger = LogManager.getLogger(LumosTracer.class);
-                // System.out.println("?? " + org.apache.log4j.Layout.class.getPackage().getImplementationVersion());
+        public static Tracer tracer;
+        static{
+                String ltracer = System.getProperty("Ltracer");
+                if(ltracer.equals("file")){
+                        tracer = new FileTracer();
+                }
+                else if(ltracer.equals("async")){
+                        tracer = new SimulatedAsyncTracer();
+                }
         }
-
         public static void logSysOut(Object content, String tag) {
                 if (isRecordingOn()) {
                         System.out.println(tag + content);
@@ -186,7 +186,8 @@ public class LumosTracer {
 
         public static void log(String s) {
                 // logger.info(Thread.currentThread().getId() + "," + s);
-                contexts.get().log(s);
+                // contexts.get().log(s);
+                tracer.log(s);
         }
 
         public static boolean isRecordingOn() {
