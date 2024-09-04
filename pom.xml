@@ -16,100 +16,100 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+   	<tracingplane.version>4.0</tracingplane.version>
   </properties>
 
   <dependencies>
-
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>tracingplane-common</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/tracingplane-common-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/tracingplane-common-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>xtrace-common</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/xtrace-common-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/xtrace-common-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>pivottracing-common</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/pivottracing-common-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/pivottracing-common-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>retro-common</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/retro-common-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/retro-common-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>tracingplane-client</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/tracingplane-client-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/tracingplane-client-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>xtrace-client</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/xtrace-client-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/xtrace-client-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>pivottracing-agent</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/pivottracing-agent-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/pivottracing-agent-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>retro-resources</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/retro-resources-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/retro-resources-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>retro-throttling</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/retro-throttling-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/retro-throttling-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>tracingplane-aspects</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/tracingplane-aspects-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/tracingplane-aspects-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>xtrace-aspects</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/xtrace-aspects-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/xtrace-aspects-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>pivottracing-aspects</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/pivottracing-aspects-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/pivottracing-aspects-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>edu.brown.cs.systems</groupId>
       <artifactId>retro-aspects</artifactId>
       <version>${tracingplane.version}</version>
-      <scope>system</scope>
-      <systemPath>/home/jingyuan/tracing-framework/dist/target/retro-aspects-${tracingplane.version}.jar</systemPath>
+      <!-- <scope>system</scope> -->
+      <!-- <systemPath>/home/jingyuan/tracing-framework/dist/target/retro-aspects-${tracingplane.version}.jar</systemPath> -->
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -153,72 +153,143 @@
           <artifactId>jms</artifactId>
         </exclusion>
       </exclusions>
-      </dependency>
+    </dependency>
 
-      <!-- <dependency> -->
-      <!--   <groupId>org.apache.logging.log4j</groupId> -->
-      <!--   <artifactId>log4j-1.2-api</artifactId> -->
-      <!--   <version>2.17.1</version> -->
-      <!-- </dependency> -->
-      <!-- <dependency> -->
-      <!--   <groupId>org.apache.logging.log4j</groupId> -->
-      <!--   <artifactId>log4j-api</artifactId> -->
-      <!--   <version>2.17.1</version> -->
-      <!-- </dependency> -->
-      <!-- <dependency> -->
-      <!--   <groupId>org.apache.logging.log4j</groupId> -->
-      <!--   <artifactId>log4j-core</artifactId> -->
-      <!--   <version>2.17.1</version> -->
+    <!-- <dependency> -->
+    <!--   <groupId>org.apache.logging.log4j</groupId> -->
+    <!--   <artifactId>log4j-1.2-api</artifactId> -->
+    <!--   <version>2.17.1</version> -->
     <!-- </dependency> -->
     <!-- <dependency> -->
-      <!-- <groupId>com.lmax</groupId> -->
-      <!-- <artifactId>disruptor</artifactId> -->
-      <!-- <version>3.3.7</version> -->
+    <!--   <groupId>org.apache.logging.log4j</groupId> -->
+    <!--   <artifactId>log4j-api</artifactId> -->
+    <!--   <version>2.17.1</version> -->
+    <!-- </dependency> -->
+    <!-- <dependency> -->
+    <!--   <groupId>org.apache.logging.log4j</groupId> -->
+    <!--   <artifactId>log4j-core</artifactId> -->
+    <!--   <version>2.17.1</version> -->
+    <!-- </dependency> -->
+    <!-- <dependency> -->
+    <!-- <groupId>com.lmax</groupId> -->
+    <!-- <artifactId>disruptor</artifactId> -->
+    <!-- <version>3.3.7</version> -->
     <!-- </dependency> -->
   </dependencies>
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.6.0</version>
+        <configuration>
+          <finalName>LumosTracer</finalName>
+        </configuration>
+        <executions>
+          <execution>
+            <id>build-full</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <minimizeJar>true</minimizeJar>
+              <artifactSet>
+                <includes>
+                  <!-- <include>edu.brown.cs.systems:xtrace-client</include> -->
+                  <!-- <include>edu.brown.cs.systems:tracingplane-common</include> -->
+
+                  <include>com.lumos.tracer:lumos-tracer</include>
+                </includes>
+              </artifactSet>
+              <!-- <filters> -->
+              <!--   <filter> -->
+              <!--     <artifact>edu.brown.cs.systems:xtrace-client</artifact> -->
+              <!--     <includes> -->
+              <!--       <include>edu/brown/cs/systems/xtrace/*</include> -->
+              <!--       <include>edu/brown/cs/systems/xtrace/logging/*</include> -->
+              <!--       <include>edu/brown/cs/systems/xtrace/reporting/*</include> -->
+              <!--     </includes> -->
+              <!--   </filter> -->
+              <!--   <filter> -->
+              <!--     <artifact>edu.brown.cs.systems:tracingplane-common</artifact> -->
+              <!--     <includes> -->
+              <!--       <include>edu/brown/cs/systems/tracing/*</include> -->
+              <!--     </includes> -->
+              <!--   </filter> -->
+              <!-- </filters> -->
+            </configuration>
+          </execution>
+
+          <!-- <execution> -->
+          <!--   <id>build-bootstrap</id> -->
+          <!--   <phase>package</phase> -->
+          <!--   <goals> -->
+          <!--     <goal>shade</goal> -->
+          <!--   </goals> -->
+          <!--   <configuration> -->
+          <!--     <minimizeJar>true</minimizeJar> -->
+          <!--     <artifactSet> -->
+          <!--       <includes> -->
+          <!--         <include>com.lumos.tracer:lumos-tracer</include> -->
+          <!--       </includes> -->
+          <!--     </artifactSet> -->
+          <!--     <filters> -->
+          <!--       <filter> -->
+          <!--         <artifact>edu.brown.cs.systems:tracingplane-common</artifact> -->
+          <!--         <includes> -->
+          <!--           <include>edu/brown/cs/systems/tracing/*</include> -->
+          <!--         </includes> -->
+          <!--       </filter> -->
+          <!--     </filters> -->
+          <!--   </configuration> -->
+          <!-- </execution> -->
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>bootstrap-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>bootstrap</classifier>
+              <classesDirectory>${basedir}/target/classes/</classesDirectory>
+              <includes>
+                <include>com/lumos/tracer/LumosTracer.class</include>
+                <include>com/lumos/tracer/ThreadContext.class</include>
+                <include>com/lumos/tracer/tracer/Tracer.class</include>
+              </includes>
+              <outputDirectory>${basedir}/target/</outputDirectory>
+              <finalName>LumosTracer</finalName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <!-- <plugin> -->
       <!--   <groupId>org.apache.maven.plugins</groupId> -->
-      <!--   <artifactId>maven-shade-plugin</artifactId> -->
-      <!--   <version>3.6.0</version> -->
+      <!--   <artifactId>maven-assembly-plugin</artifactId> -->
+      <!--   <configuration> -->
+      <!--     <includeSystemScope>true</includeSystemScope> -->
+      <!--     <finalName>LumosTracer</finalName> -->
+      <!--     <descriptorRefs> -->
+      <!--       <descriptorRef>jar-with-dependencies</descriptorRef> -->
+      <!--     </descriptorRefs> -->
+      <!--   </configuration> -->
       <!--   <executions> -->
       <!--     <execution> -->
-      <!--       <phase>package</phase> -->
+      <!--       <id>make-assembly</id> <!-1- this is used for inheritance merges -1-> -->
+      <!--       <phase>package</phase> <!-1- bind to the packaging phase -1-> -->
       <!--       <goals> -->
-      <!--         <goal>shade</goal> -->
+      <!--         <goal>single</goal> -->
       <!--       </goals> -->
-      <!--       <configuration> -->
-      <!--         <artifactSet> -->
-      <!--           <includes> -->
-      <!--             <include>**</include> -->
-      <!--           </includes> -->
-      <!--         </artifactSet> -->
-      <!--       </configuration> -->
       <!--     </execution> -->
       <!--   </executions> -->
       <!-- </plugin> -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-assembly-plugin</artifactId>
-          <configuration>
-            <includeSystemScope>true</includeSystemScope>
-            <finalName>LumosTracer</finalName>
-            <descriptorRefs>
-              <descriptorRef>jar-with-dependencies</descriptorRef>
-            </descriptorRefs>
-          </configuration>
-          <executions>
-            <execution>
-              <id>make-assembly</id> <!-- this is used for inheritance merges -->
-              <phase>package</phase> <!-- bind to the packaging phase -->
-              <goals>
-                <goal>single</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
     </plugins>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
@@ -244,10 +315,10 @@
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
         </plugin>
-        <plugin>
-          <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
-        </plugin>
+        <!-- <plugin> -->
+        <!--   <artifactId>maven-install-plugin</artifactId> -->
+        <!--   <version>2.5.2</version> -->
+        <!-- </plugin> -->
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>

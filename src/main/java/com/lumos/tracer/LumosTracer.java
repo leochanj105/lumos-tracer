@@ -1,23 +1,11 @@
 package com.lumos.tracer;
 
-// import org.apache.logging.log4j.LogManager;
-import org.apache.log4j.Logger;
-
-import com.lumos.tracer.tracer.FileTracer;
-import com.lumos.tracer.tracer.SimulatedAsyncTracer;
 import com.lumos.tracer.tracer.Tracer;
 
 public class LumosTracer {
         public static ThreadLocal<ThreadContext> contexts = ThreadLocal.withInitial(() -> new ThreadContext());
         public static Tracer tracer;
-        static{
-                String ltracer = System.getProperty("Ltracer");
-                if(ltracer.equals("file")){
-                        tracer = new FileTracer();
-                }
-                else if(ltracer.equals("async")){
-                        tracer = new SimulatedAsyncTracer();
-                }
+        static {
         }
         public static void logSysOut(Object content, String tag) {
                 if (isRecordingOn()) {
@@ -214,4 +202,5 @@ public class LumosTracer {
         public static void toggle(boolean on) {
                 contexts.get().on = on;
         }
+
 }
