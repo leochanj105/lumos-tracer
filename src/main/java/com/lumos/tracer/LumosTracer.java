@@ -103,11 +103,18 @@ public class LumosTracer {
         public static void logDebug(String tag){
                 if(isRecordingOn()){
                         toggle(false);
-                        System.out.println(tag);
+                        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+                        System.out.println("---");
+                        for (StackTraceElement e : stackTraceElements) {
+                                System.out.println(e.getClassName() + ":" + e.getMethodName());
+                        }
+                        // if(tag.length() > 0){
+                        //         throw new RuntimeException("STOP");
+                        // }
                         toggle(true);
                 }
                 else{
-                        System.out.println(tag + " ??");
+                        System.out.println(tag);
                 }
         }
         public static void logDebug2(String tag, long start, long end){
