@@ -7,59 +7,6 @@ public class LumosTracer {
         public static Tracer tracer;
         static {
         }
-        public static void logSysOut(Object content, String tag) {
-                if (isRecordingOn()) {
-                        System.out.println(tag + content);
-                }
-        }
-
-        public static void logSysOut(int content, String tag) {
-                if (isRecordingOn()) {
-                        System.out.println(tag + content);
-                }
-        }
-
-        public static void logSysOut(byte content, String tag) {
-                if (isRecordingOn()) {
-                        System.out.println(tag + content);
-                }
-        }
-
-        public static void logSysOut(float content, String tag) {
-                if (isRecordingOn()) {
-                        System.out.println(tag + content);
-                }
-        }
-
-        public static void logSysOut(double content, String tag) {
-                if (isRecordingOn()) {
-                        System.out.println(tag + content);
-                }
-        }
-
-        public static void logSysOut(char content, String tag) {
-                if (isRecordingOn()) {
-                        System.out.println(tag + content);
-                }
-        }
-
-        public static void logSysOut(char[] content, String tag) {
-                if (isRecordingOn()) {
-                        System.out.println(tag + new String(content));
-                }
-        }
-
-        public static void logSysOut(boolean content, String tag) {
-                if (isRecordingOn()) {
-                        System.out.println(tag + content);
-                }
-        }
-
-        public static void logSysOut(long content, String tag) {
-                if (isRecordingOn()) {
-                        System.out.println(tag + content);
-                }
-        }
 
         public static void logIndexedTimedTrace(Object content, int index, String tag, long start, long end) {
                 if (isRecordingOn()) {
@@ -114,7 +61,12 @@ public class LumosTracer {
                         toggle(true);
                 }
                 else{
-                        System.out.println(tag);
+                        // System.out.println(tag);
+                        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+                        System.out.println("!!!");
+                        for (StackTraceElement e : stackTraceElements) {
+                                System.out.println(e.getClassName() + ":" + e.getMethodName());
+                        }
                 }
         }
         public static void logDebug2(String tag, long start, long end){
