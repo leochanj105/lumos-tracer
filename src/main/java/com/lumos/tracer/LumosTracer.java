@@ -7,7 +7,9 @@ public class LumosTracer {
         public static Tracer tracer;
         static {
         }
+        public static void logNull(Object obj, String tag){
 
+        }
         public static void logIndexedTimedTrace(Object content, int index, String tag, long start, long end) {
                 if (isRecordingOn()) {
                         toggle(false);
