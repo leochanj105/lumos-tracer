@@ -64,11 +64,11 @@ public class LumosTracer {
                 }
                 else{
                         // System.out.println(tag);
-                        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-                        System.out.println("!!!");
-                        for (StackTraceElement e : stackTraceElements) {
-                                System.out.println(e.getClassName() + ":" + e.getMethodName());
-                        }
+                        // StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+                        // System.out.println("!!!");
+                        // for (StackTraceElement e : stackTraceElements) {
+                        //         System.out.println(e.getClassName() + ":" + e.getMethodName());
+                        // }
                 }
         }
         public static void logDebug2(String tag, long start, long end){
