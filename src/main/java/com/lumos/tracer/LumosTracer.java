@@ -197,7 +197,7 @@ public class LumosTracer {
                 // System.out.println("!!! " + s);
                 //
                 // System.out.println(s + " before");
-                tracer.log(Thread.currentThread().getName() + " " + s);
+                tracer.log(s);
                 // System.out.println(s + " after");
         }
 

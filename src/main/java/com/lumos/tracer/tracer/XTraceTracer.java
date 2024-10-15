@@ -8,7 +8,12 @@ public class XTraceTracer implements Tracer{
 
         @Override
         public void log(String msg) {
-                xtrace.log(msg);
+                try{
+                        // System.out.println(xtrace + "   " + msg);
+                        xtrace.log(msg);
+                } catch (Throwable e) {
+                        e.printStackTrace();
+                }
         }
 
 }
