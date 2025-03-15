@@ -12,7 +12,7 @@ public class Test{
     public int n2 = r.nextInt();
   }
   public static void main(String args[]){
-    bench2();
+    bench1();
   }
   public static void bench2(){
     // XTrace;
@@ -342,7 +342,7 @@ public class Test{
       s = System.nanoTime();
       hc = System.nanoTime();
       e = System.nanoTime();
-      System.err.println(hc);
+      //System.err.println(hc);
       s1 += (e - s);
     }
 

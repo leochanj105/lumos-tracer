@@ -1,14 +1,28 @@
 package com.lumos.tracer;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+import java.util.UUID;
+
 import com.lumos.tracer.tracer.Tracer;
 
 public class LumosTracer {
         public static ThreadLocal<ThreadContext> contexts = ThreadLocal.withInitial(() -> new ThreadContext());
         public static Tracer tracer;
+
+        public static String dir = "/home/jingyuan/hdfsstuff/lumoslogs/";
         static {
         }
         public static void logNull(Object obj, String tag){
 
+        }
+        public static void logCounter(){
+                System.out.println("end: " + System.nanoTime());
+                System.out.println("counter = " + contexts.get().counter);
         }
         public static void logIndexedTimedTrace(Object content, int index, String tag, long start, long end) {
                 if (isRecordingOn()) {
@@ -221,6 +235,72 @@ public class LumosTracer {
                return contexts.get().on;
         }
 
+        public static void startRecording(String recName){
+                contexts.get().stat.clear();
+                contexts.get().recId = UUID.randomUUID();
+                contexts.get().recName = recName;
+                contexts.get().localLogs.clear();
+                contexts.get().start = System.nanoTime();
+                toggle(true);
+        }
+
+        public static void endRecording(){
+                toggle(false);
+                contexts.get().end = System.nanoTime();
+                //contexts.get().stat.get(recname).add(System.nanoTime()+"");
+                System.out.println("[LUMOS] recName=" + contexts.get().recName);
+                System.out.println("[LUMOS] start=" + contexts.get().start);
+                System.out.println("[LUMOS] end=" + contexts.get().end);
+                System.out.println(contexts.get().localLogs.size());
+
+                ThreadContext ctx = LumosTracer.contexts.get();
+                output(ctx.recId, ctx.recName, ctx.localLogs);
+                // Map<String, List<String>> stat = contexts.get().stat;
+                // for(String s: stat.keySet()){
+                //         System.out.println("[LUMOS] " + s + ": " + stat.get(s).size());
+                // }
+                // for(String s: stat.keySet()){
+                //         System.out.println("-------------------------");
+                //         System.out.println("[LUMOS] " + s);
+                //         for(String inst:stat.get(s)){
+                //                 System.out.println(inst);
+                //         }
+                // }
+
+        }
+
+
+        public static void output(UUID id, String name, List<String> logs){
+                File outputDir = new File(dir);
+                if (!outputDir.exists()) {
+                        outputDir.mkdir();
+                }
+                File file = new File(dir + id);
+                FileWriter writer;
+                // System.out.println("outputing to " + file.getName());
+                try {
+                        writer = new FileWriter(file);
+                        writer.write("[TRACE_NAME]: " + name + System.lineSeparator());
+                        for (String str : logs) {
+                                writer.write(str + System.lineSeparator());
+                        }
+                        writer.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
+        }
+        public static void updateStat(String type, String inst){
+                if (isRecordingOn()) {
+                        toggle(false);
+                        Map<String, List<String>> stat = contexts.get().stat;
+                        if(!stat.containsKey(type)){
+                                stat.put(type, new ArrayList<>());
+                        }
+                        stat.get(type).add(inst);
+                        toggle(true);
+                }
+        }
+
         // public static void logSysOut()
         public static void toggle(boolean on) {
                 // System.out.println("## in toggle");
@@ -238,6 +318,12 @@ public class LumosTracer {
 
         public static boolean getRR(){
                 return contexts.get().on;
+        }
+
+        public static void resetCounter(){
+                contexts.get().counter = 0;
+                tracer.log("begin entry func");
+                System.out.println("begin: " + System.nanoTime());
         }
 
 }
