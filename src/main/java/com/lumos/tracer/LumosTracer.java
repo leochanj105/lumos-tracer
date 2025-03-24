@@ -248,7 +248,7 @@ public class LumosTracer {
                 toggle(false);
                 contexts.get().end = System.nanoTime();
                 //contexts.get().stat.get(recname).add(System.nanoTime()+"");
-                System.out.println("[LUMOS] recName=" + contexts.get().recName);
+                System.out.println("[LUMOS] recName=" + contexts.get().recName +"::" + contexts.get().recId);
                 System.out.println("[LUMOS] start=" + contexts.get().start);
                 System.out.println("[LUMOS] end=" + contexts.get().end);
                 System.out.println(contexts.get().localLogs.size());
