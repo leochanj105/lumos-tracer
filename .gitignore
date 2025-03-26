@@ -2,3 +2,4 @@
 **/*.class
 tmp/**/*
 dependency-reduced-pom.xml
+result
