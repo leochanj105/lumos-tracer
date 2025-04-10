@@ -14,7 +14,7 @@ public class LumosTracer {
         public static ThreadLocal<ThreadContext> contexts = ThreadLocal.withInitial(() -> new ThreadContext());
         public static Tracer tracer;
 
-        public static String dir = "/home/jingyuan/hdfsstuff/lumoslogs/";
+        public static String dir = System.getenv("LUMOS_LOG_DIR");
         static {
         }
         public static void logNull(Object obj, String tag){
