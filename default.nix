@@ -1,20 +1,13 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> {}
+, lumosTracingFramework
+}:
 
 let
   inherit (pkgs)
     lib
-    callPackage
-    fetchFromGitHub
     maven
     jdk8
     aspectj;
-
-  lumosTracingFramework = callPackage (fetchFromGitHub {
-    owner = "leochanj105";
-    repo = "tracing-framework";
-    rev = "50c5f262982aa75823f15315161b10e67b74b4d9";
-    hash = "sha256-8ZguP3ntzEaomNqOzbNI3CZ0eEsfr2U5m9YEbw5i/3U=";
-  }) { };
 in
 maven.buildMavenPackage {
   pname = "lumos-tracer";
@@ -22,7 +15,7 @@ maven.buildMavenPackage {
 
   src = ./.;
 
-  mvnHash = "sha256-ab12AwNIXEEr0p0TOtZi3VCek8Fa5duyCDzWN90lDEg=";
+  mvnHash = "sha256-6+CiZY/jiODfhzqcP9ztg2aqM4iDogWApiyl3vc/QlY=";
 
   mvnParameters = lib.escapeShellArgs [
     "clean"
