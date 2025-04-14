@@ -247,14 +247,17 @@ public class LumosTracer {
         public static void endRecording(){
                 toggle(false);
                 contexts.get().end = System.nanoTime();
-                //contexts.get().stat.get(recname).add(System.nanoTime()+"");
                 System.out.println("[LUMOS] recName=" + contexts.get().recName +"::" + contexts.get().recId);
                 System.out.println("[LUMOS] start=" + contexts.get().start);
                 System.out.println("[LUMOS] end=" + contexts.get().end);
                 System.out.println(contexts.get().localLogs.size());
-
+                
                 ThreadContext ctx = LumosTracer.contexts.get();
-                output(ctx.recId, ctx.recName, ctx.localLogs);
+                if (LumosRegister.ltracer.equals("async")) {
+                        append(ctx.recName, (contexts.get().end - contexts.get().start) + "");
+                } else {
+                        output(ctx.recId, ctx.recName, ctx.localLogs);
+                }
                 // Map<String, List<String>> stat = contexts.get().stat;
                 // for(String s: stat.keySet()){
                 //         System.out.println("[LUMOS] " + s + ": " + stat.get(s).size());
@@ -267,6 +270,23 @@ public class LumosTracer {
                 //         }
                 // }
 
+        }
+
+        public static void append(String name, String val){
+                File outputDir = new File(dir);
+                if (!outputDir.exists()) {
+                        outputDir.mkdir();
+                }
+                File file = new File(dir + name);
+                FileWriter writer;
+                // System.out.println("outputing to " + file.getName());
+                try {
+                        writer = new FileWriter(file, true);
+                        writer.write(val);
+                        writer.close();
+                } catch (Exception e) {
+                        e.printStackTrace();
+                }
         }
 
 

@@ -10,9 +10,16 @@ import com.lumos.tracer.LumosTracer;
 import com.lumos.tracer.ThreadContext;
 
 public class SimulatedAsyncTracer implements Tracer{
+        public static long LOG_LATENCY = 40;
         @Override
         public void log(String msg) {
-                LumosTracer.contexts.get().localLogs.add(msg);
+                //LumosTracer.contexts.get().localLogs.add(msg);
+                long currentTimeMillis = System.nanoTime();
+                while (true) {
+                        if (System.nanoTime() - currentTimeMillis >= LOG_LATENCY) {
+                                break;
+                        }
+                }
                 //System.out.println(msg);
         }
 

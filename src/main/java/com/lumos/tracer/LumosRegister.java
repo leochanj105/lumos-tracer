@@ -12,9 +12,10 @@ public class LumosRegister{
         // public static void log(String s){
         //         tracer.log(s);
         // }
+        public static String ltracer = "";
 
         public static void registerTracer() {
-                String ltracer = System.getProperty("Ltracer");
+                ltracer = System.getProperty("Ltracer");
                 registerTracer(ltracer);
         }
 
@@ -23,7 +24,12 @@ public class LumosRegister{
                         if (ltracer.equals("file")) {
                                 LumosTracer.tracer = new FileTracer();
                         } else if (ltracer.equals("async")) {
-                                LumosTracer.tracer = new SimulatedAsyncTracer();
+                                SimulatedAsyncTracer stracer= new SimulatedAsyncTracer();
+                                LumosTracer.tracer = stracer;
+                                String lat = System.getProperty("LogLatency");
+                                if (lat != null) {
+                                        SimulatedAsyncTracer.LOG_LATENCY = Long.valueOf(lat);
+                                }
                         } else if (ltracer.equals("xtrace")) {
                                 LumosTracer.tracer = new XTraceTracer();
                         } else if (ltracer.equals("counting")) {
