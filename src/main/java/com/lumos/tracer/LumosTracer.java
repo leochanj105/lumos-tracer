@@ -253,8 +253,11 @@ public class LumosTracer {
                 System.out.println(contexts.get().localLogs.size());
                 
                 ThreadContext ctx = LumosTracer.contexts.get();
-                if (LumosRegister.ltracer.equals("async")) {
-                        append(ctx.recName, (contexts.get().end - contexts.get().start) + "");
+                //if (LumosRegister.ltracer.equals("async")) {
+                String ltracer = System.getProperty("Ltracer");
+                if (ltracer != null && ltracer.equals("async")) {
+                        String shortName = ctx.recName.substring(1, ctx.recName.indexOf('('));
+                        append(shortName, (contexts.get().end - contexts.get().start) + "\n");
                 } else {
                         output(ctx.recId, ctx.recName, ctx.localLogs);
                 }

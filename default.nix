@@ -14,8 +14,7 @@ maven.buildMavenPackage {
   version = "0.0.1";
 
   src = ./.;
-
-  mvnHash = "sha256-6+CiZY/jiODfhzqcP9ztg2aqM4iDogWApiyl3vc/QlY=";
+  mvnHash = "sha256-dqsC3hWEYghr5I2KKxHC+l/Rb3KtTZrZ2FrJHNmbW4A=";
 
   mvnParameters = lib.escapeShellArgs [
     "clean"
