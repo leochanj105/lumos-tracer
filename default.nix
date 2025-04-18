@@ -1,5 +1,6 @@
 { pkgs ? import <nixpkgs> {}
 , lumosTracingFramework
+, mvnHash
 }:
 
 let
@@ -14,7 +15,8 @@ maven.buildMavenPackage {
   version = "0.0.1";
 
   src = ./.;
-  mvnHash = "sha256-dqsC3hWEYghr5I2KKxHC+l/Rb3KtTZrZ2FrJHNmbW4A=";
+
+  inherit mvnHash;
 
   mvnParameters = lib.escapeShellArgs [
     "clean"
