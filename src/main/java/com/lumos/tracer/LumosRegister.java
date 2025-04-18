@@ -1,6 +1,7 @@
 package com.lumos.tracer;
 
 import com.lumos.tracer.tracer.CountingTracer;
+import com.lumos.tracer.tracer.DebugTracer;
 import com.lumos.tracer.tracer.FileTracer;
 import com.lumos.tracer.tracer.NullTracer;
 import com.lumos.tracer.tracer.SimulatedAsyncTracer;
@@ -24,18 +25,21 @@ public class LumosRegister{
                         if (ltracer.equals("file")) {
                                 LumosTracer.tracer = new FileTracer();
                         } else if (ltracer.equals("async")) {
-                                SimulatedAsyncTracer stracer= new SimulatedAsyncTracer();
+                                SimulatedAsyncTracer stracer = new SimulatedAsyncTracer();
                                 LumosTracer.tracer = stracer;
                                 String lat = System.getProperty("LogLatency");
                                 if (lat != null) {
                                         SimulatedAsyncTracer.LOG_LATENCY = Long.valueOf(lat);
                                 }
+                        } else if (ltracer.equals("debug")) {
+                                LumosTracer.tracer = new DebugTracer();
                         } else if (ltracer.equals("xtrace")) {
                                 LumosTracer.tracer = new XTraceTracer();
                         } else if (ltracer.equals("counting")) {
                                 LumosTracer.tracer = new CountingTracer();
                         } else if (ltracer.equals("opentelemetry")) {
-                        } else{
+                                // FIXME: No OTLP for now
+                        } else {
                                 LumosTracer.tracer = new NullTracer();
                         }
 

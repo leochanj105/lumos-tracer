@@ -107,101 +107,101 @@ public class LumosTracer {
 
         public static void logAddress(Object content, String tag){
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + System.identityHashCode(content));
                         // System.out.println(tag+" after");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
         public static void logTrace(Object content, String tag) {
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + content);
                         // System.out.println(tag+" after");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
         public static void logTrace(int content, String tag) {
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + content);
                         // System.out.println(tag+" after");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
         public static void logTrace(byte content, String tag) {
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + content);
                         // System.out.println(tag+" after");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
         public static void logTrace(float content, String tag) {
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + content);
                         // System.out.println(tag+" after");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
         public static void logTrace(double content, String tag) {
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + content);
                         // System.out.println(tag+" after");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
         public static void logTrace(char content, String tag) {
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + content);
                         // System.out.println(tag+" after");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
         public static void logTrace(char[] content, String tag) {
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + System.identityHashCode(content));
                         // System.out.println(tag+" after");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
         public static void logTrace(boolean content, String tag) {
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + content);
                         // System.out.println(tag+" after");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
         public static void logTrace(long content, String tag) {
                 if (isRecordingOn()) {
-                        toggle(false);
+                        // toggle(false);
                         // System.out.println(tag+" before");
                         log(tag +  "," + content);
                         // System.out.println(tag+" before");
-                        toggle(true);
+                        // toggle(true);
                 }
         }
 
@@ -257,7 +257,7 @@ public class LumosTracer {
                 String ltracer = System.getProperty("Ltracer");
                 if (ltracer != null && ltracer.equals("async")) {
                         String shortName = ctx.recName.substring(1, ctx.recName.indexOf('('));
-                        append(shortName, (contexts.get().end - contexts.get().start) + "\n");
+                        append(shortName, contexts.get().start, contexts.get().end);
                 } else {
                         output(ctx.recId, ctx.recName, ctx.localLogs);
                 }
@@ -275,7 +275,7 @@ public class LumosTracer {
 
         }
 
-        public static void append(String name, String val){
+        public static void append(String name, long start, long end){
                 File outputDir = new File(dir);
                 if (!outputDir.exists()) {
                         outputDir.mkdir();
@@ -285,7 +285,7 @@ public class LumosTracer {
                 // System.out.println("outputing to " + file.getName());
                 try {
                         writer = new FileWriter(file, true);
-                        writer.write(val);
+                        writer.write(start + " " + end + "\n");
                         writer.close();
                 } catch (Exception e) {
                         e.printStackTrace();

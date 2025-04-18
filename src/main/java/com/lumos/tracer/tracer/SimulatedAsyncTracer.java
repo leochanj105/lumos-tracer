@@ -14,9 +14,9 @@ public class SimulatedAsyncTracer implements Tracer{
         @Override
         public void log(String msg) {
                 //LumosTracer.contexts.get().localLogs.add(msg);
-                long currentTimeMillis = System.nanoTime();
+                long currentTimeNano = System.nanoTime();
                 while (true) {
-                        if (System.nanoTime() - currentTimeMillis >= LOG_LATENCY) {
+                        if (System.nanoTime() - currentTimeNano >= LOG_LATENCY) {
                                 break;
                         }
                 }
