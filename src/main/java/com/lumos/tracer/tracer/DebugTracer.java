@@ -9,5 +9,9 @@ public class DebugTracer implements Tracer{
         public void log(String msg) {
                 LumosTracer.contexts.get().localLogs.add(msg);
         }
+        @Override
+        public void log(long msg) {
+                LumosTracer.contexts.get().localLogs.add(""+msg);
+        }
 
 }

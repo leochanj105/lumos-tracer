@@ -6,4 +6,8 @@ public class NullTracer implements Tracer{
         public void log(String msg) {
         }
 
+        @Override
+        public void log(long msg) {
+        }
+
 }

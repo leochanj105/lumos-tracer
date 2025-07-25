@@ -13,8 +13,9 @@ import com.lumos.tracer.tracer.Tracer;
 public class LumosTracer {
         public static ThreadLocal<ThreadContext> contexts = ThreadLocal.withInitial(() -> new ThreadContext());
         public static Tracer tracer;
-
+        public static long XX = 0;
         public static String dir = System.getenv("LUMOS_LOG_DIR");
+        public static boolean noHash = System.getProperty("NoHash") != null;
         static {
         }
         public static void logNull(Object obj, String tag){
@@ -106,20 +107,27 @@ public class LumosTracer {
         }
 
         public static void logAddress(Object content, String tag){
+                // System.out.println("nohash = " + noHash); 
                 if (isRecordingOn()) {
                         // toggle(false);
                         // System.out.println(tag+" before");
-                        log(tag +  "," + System.identityHashCode(content));
+                        // if (noHash) {
+                        //         // System.out.println("nohash!!");
+                        //         log(System.identityHashCode(tracer));
+                        // } else {
+                                log(tag + "," + System.identityHashCode(content));
+                        // log(System.identityHashCode(content));
+                        // log(tag);
+                        // }
                         // System.out.println(tag+" after");
                         // toggle(true);
                 }
         }
-
         public static void logTrace(Object content, String tag) {
                 if (isRecordingOn()) {
                         // toggle(false);
                         // System.out.println(tag+" before");
-                        log(tag +  "," + content);
+                        log(content == null ? "" : content.toString());
                         // System.out.println(tag+" after");
                         // toggle(true);
                 }
@@ -206,13 +214,11 @@ public class LumosTracer {
         }
 
         public static void log(String s) {
-                // logger.info(Thread.currentThread().getId() + "," + s);
-                // contexts.get().log(s);
-                // System.out.println("!!! " + s);
-                //
-                // System.out.println(s + " before");
                 tracer.log(s);
-                // System.out.println(s + " after");
+        }
+
+        public static void log(long hc) {
+                tracer.log(hc);
         }
 
         public static boolean isRecordingOn() {
@@ -232,7 +238,16 @@ public class LumosTracer {
                 // }
 
                 // }
-               return contexts.get().on;
+               // return contexts.get().on;
+               return true;
+        }
+
+        public static void logNone() {
+                XX += 1;
+        }
+
+        public static void readXX(){
+                System.out.println(XX);
         }
 
         public static void startRecording(String recName){
@@ -240,7 +255,9 @@ public class LumosTracer {
                 contexts.get().recId = UUID.randomUUID();
                 contexts.get().recName = recName;
                 contexts.get().localLogs.clear();
+                contexts.get().counter = 0;
                 contexts.get().start = System.nanoTime();
+
                 toggle(true);
         }
 
@@ -248,18 +265,20 @@ public class LumosTracer {
                 toggle(false);
                 contexts.get().end = System.nanoTime();
                 System.out.println("[LUMOS] recName=" + contexts.get().recName +"::" + contexts.get().recId);
-                System.out.println("[LUMOS] start=" + contexts.get().start);
-                System.out.println("[LUMOS] end=" + contexts.get().end);
+                // readXX();
+                // System.out.println("[LUMOS] start=" + contexts.get().start);
+                // System.out.println("[LUMOS] end=" + contexts.get().end);
                 System.out.println(contexts.get().localLogs.size());
                 
                 ThreadContext ctx = LumosTracer.contexts.get();
+                // System.out.println("counter = " + ctx.counter);
                 //if (LumosRegister.ltracer.equals("async")) {
                 String ltracer = System.getProperty("Ltracer");
-                if (ltracer != null && ltracer.equals("async")) {
+                if (ltracer != null && ltracer.equals("debug")) {
+                        output(ctx.recId, ctx.recName, ctx.localLogs);
+                } else {
                         String shortName = ctx.recName.substring(1, ctx.recName.indexOf('('));
                         append(shortName, contexts.get().start, contexts.get().end);
-                } else {
-                        output(ctx.recId, ctx.recName, ctx.localLogs);
                 }
                 // Map<String, List<String>> stat = contexts.get().stat;
                 // for(String s: stat.keySet()){
@@ -282,7 +301,7 @@ public class LumosTracer {
                 }
                 File file = new File(dir + name);
                 FileWriter writer;
-                // System.out.println("outputing to " + file.getName());
+                System.out.println("outputting to " + file.getName());
                 try {
                         writer = new FileWriter(file, true);
                         writer.write(start + " " + end + "\n");
@@ -300,7 +319,7 @@ public class LumosTracer {
                 }
                 File file = new File(dir + id);
                 FileWriter writer;
-                // System.out.println("outputing to " + file.getName());
+                System.out.println("outputting to " + file.getName());
                 try {
                         writer = new FileWriter(file);
                         writer.write("[TRACE_NAME]: " + name + System.lineSeparator());

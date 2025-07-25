@@ -1,26 +1,27 @@
 package com.lumos.tracer.tracer;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.UUID;
-
-import com.lumos.tracer.LumosTracer;
-import com.lumos.tracer.ThreadContext;
-
 public class SimulatedAsyncTracer implements Tracer{
         public static long LOG_LATENCY = 40;
         @Override
         public void log(String msg) {
-                //LumosTracer.contexts.get().localLogs.add(msg);
-                long currentTimeNano = System.nanoTime();
-                while (true) {
-                        if (System.nanoTime() - currentTimeNano >= LOG_LATENCY) {
-                                break;
-                        }
+                loop();
+        }
+        @Override
+        public void log(long msg) {
+                loop();
+        }
+
+        public static int loop(){
+                if(System.nanoTime() >100){
+                        return 0;
                 }
-                //System.out.println(msg);
+                return 1;
+                // long currentTimeNano = System.nanoTime();
+                // while (true) {
+                //         if (System.nanoTime() - currentTimeNano >= LOG_LATENCY) {
+                //                 break;
+                //         }
+                // }
         }
 
 }

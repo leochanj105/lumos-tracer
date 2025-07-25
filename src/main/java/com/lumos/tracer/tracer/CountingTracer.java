@@ -22,4 +22,9 @@ public class CountingTracer implements Tracer{
                 LumosTracer.contexts.get().counter++;
         }
 
+        @Override
+        public void log(long msg) {
+                LumosTracer.contexts.get().counter++;
+        }
+
 }

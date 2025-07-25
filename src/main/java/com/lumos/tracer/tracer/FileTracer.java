@@ -13,5 +13,11 @@ public class FileTracer implements Tracer{
         public void log(String msg) {
                 logger.info(Thread.currentThread().getId() + "," + msg);
         }
+        @Override
+        public void log(long msg) {
+                // TODO Auto-generated method stub
+                //
+                throw new UnsupportedOperationException("Unimplemented method 'log'");
+        }
 
 }
