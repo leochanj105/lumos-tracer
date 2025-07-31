@@ -127,7 +127,7 @@ public class LumosTracer {
                 if (isRecordingOn()) {
                         // toggle(false);
                         // System.out.println(tag+" before");
-                        log(content == null ? "" : content.toString());
+                        log(tag + (content == null ? "" : content.toString()));
                         // System.out.println(tag+" after");
                         // toggle(true);
                 }
@@ -238,8 +238,8 @@ public class LumosTracer {
                 // }
 
                 // }
-               // return contexts.get().on;
-               return true;
+               return contexts.get().on;
+               // return true;
         }
 
         public static void logNone() {
@@ -257,7 +257,7 @@ public class LumosTracer {
                 contexts.get().localLogs.clear();
                 contexts.get().counter = 0;
                 contexts.get().start = System.nanoTime();
-
+                System.out.println("start rec: " + recName);
                 toggle(true);
         }
 
@@ -301,7 +301,7 @@ public class LumosTracer {
                 }
                 File file = new File(dir + name);
                 FileWriter writer;
-                System.out.println("outputting to " + file.getName());
+                // System.out.println("outputting to " + file.getName());
                 try {
                         writer = new FileWriter(file, true);
                         writer.write(start + " " + end + "\n");
@@ -319,7 +319,7 @@ public class LumosTracer {
                 }
                 File file = new File(dir + id);
                 FileWriter writer;
-                System.out.println("outputting to " + file.getName());
+                // System.out.println("outputting to " + file.getName());
                 try {
                         writer = new FileWriter(file);
                         writer.write("[TRACE_NAME]: " + name + System.lineSeparator());
