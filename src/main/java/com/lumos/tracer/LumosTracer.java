@@ -257,18 +257,18 @@ public class LumosTracer {
                 contexts.get().localLogs.clear();
                 contexts.get().counter = 0;
                 contexts.get().start = System.nanoTime();
-                System.out.println("start rec: " + recName);
+                // System.out.println("start rec: " + recName);
                 toggle(true);
         }
 
         public static void endRecording(){
                 toggle(false);
                 contexts.get().end = System.nanoTime();
-                System.out.println("[LUMOS] recName=" + contexts.get().recName +"::" + contexts.get().recId);
+                // System.out.println("[LUMOS] recName=" + contexts.get().recName +"::" + contexts.get().recId);
                 // readXX();
                 // System.out.println("[LUMOS] start=" + contexts.get().start);
                 // System.out.println("[LUMOS] end=" + contexts.get().end);
-                System.out.println(contexts.get().localLogs.size());
+                // System.out.println(contexts.get().localLogs.size());
                 
                 ThreadContext ctx = LumosTracer.contexts.get();
                 // System.out.println("counter = " + ctx.counter);
@@ -319,7 +319,7 @@ public class LumosTracer {
                 }
                 File file = new File(dir + id);
                 FileWriter writer;
-                // System.out.println("outputting to " + file.getName());
+                System.out.println("outputting to " + file.getName() + ": " + name);
                 try {
                         writer = new FileWriter(file);
                         writer.write("[TRACE_NAME]: " + name + System.lineSeparator());
