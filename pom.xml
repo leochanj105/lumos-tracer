@@ -199,7 +199,6 @@
                 <includes>
                   <!-- <include>edu.brown.cs.systems:xtrace-client</include> -->
                   <!-- <include>edu.brown.cs.systems:tracingplane-common</include> -->
-
                   <include>com.lumos.tracer:lumos-tracer</include>
                 </includes>
               </artifactSet>
@@ -262,6 +261,7 @@
               <includes>
                 <include>com/lumos/tracer/LumosTracer.class</include>
                 <include>com/lumos/tracer/ThreadContext.class</include>
+                <!-- <include>com/lumos/tracer/HindsightJNI.class</include> -->
                 <include>com/lumos/tracer/tracer/Tracer.class</include>
               </includes>
               <outputDirectory>${basedir}/target/</outputDirectory>

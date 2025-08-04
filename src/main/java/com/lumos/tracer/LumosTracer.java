@@ -257,12 +257,24 @@ public class LumosTracer {
                 contexts.get().localLogs.clear();
                 contexts.get().counter = 0;
                 contexts.get().start = System.nanoTime();
+
+                String ltracer = System.getProperty("Ltracer");
+                if(ltracer.equals("hs")){
+                        HindsightJNI.hindsightBegin(contexts.get().recId.getLeastSignificantBits());
+                        byte[] payload = recName.getBytes();
+                        HindsightJNI.hindsightTracepoint(payload, payload.length);
+                }
                 // System.out.println("start rec: " + recName);
                 toggle(true);
         }
 
         public static void endRecording(){
                 toggle(false);
+
+                String ltracer = System.getProperty("Ltracer");
+                if(ltracer.equals("hs")){
+                        HindsightJNI.hindsightEnd();
+                }
                 contexts.get().end = System.nanoTime();
                 // System.out.println("[LUMOS] recName=" + contexts.get().recName +"::" + contexts.get().recId);
                 // readXX();
@@ -273,7 +285,7 @@ public class LumosTracer {
                 ThreadContext ctx = LumosTracer.contexts.get();
                 // System.out.println("counter = " + ctx.counter);
                 //if (LumosRegister.ltracer.equals("async")) {
-                String ltracer = System.getProperty("Ltracer");
+                // String ltracer = System.getProperty("Ltracer");
                 if (ltracer != null && ltracer.equals("debug")) {
                         output(ctx.recId, ctx.recName, ctx.localLogs);
                 } else {

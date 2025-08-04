@@ -9,7 +9,8 @@ public class HindsightTracer implements Tracer{
         }
         @Override
         public void log(String msg) {
-                throw new UnsupportedOperationException("Unimplemented method 'log'");
+                byte[] payload  = msg.getBytes();
+                HindsightJNI.hindsightTracepoint(payload, payload.length);
         }
 
         @Override
