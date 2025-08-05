@@ -2,6 +2,7 @@ package com.lumos.tracer;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -100,14 +101,109 @@ public class LumosTracer {
                 };
         }
 
+        public static byte[] int2barr(int value) {
+                return new byte[] {
+                                (byte) (value >>> 24),
+                                (byte) (value >>> 16),
+                                (byte) (value >>> 8),
+                                (byte)  value
+                };
+        }
+
         public static byte[] getPayload(String s){
                 int length = s.length();
-                byte[] lpart = long2barr(length);
+                byte[] lpart = int2barr(length);
                 byte[] content = s.getBytes();
-                byte[] payload = new byte[length + content.length];
-                System.arraycopy(lpart, 0, payload, 0, 8);
-                System.arraycopy(content, 0, payload, 8, payload.length);
+                byte[] payload = new byte[lpart.length + content.length];
+                System.arraycopy(lpart, 0, payload, 0, lpart.length);
+                System.arraycopy(content, 0, payload, lpart.length, content.length);
                 return payload;
+        }
+
+        public static byte[] getPayload(long id, String content){
+                byte[] idpart = long2barr(id);
+                int length = content.length();
+                byte[] lpart = int2barr(length);
+                byte[] cpart = content.getBytes();
+                byte[] payload = new byte[idpart.length + lpart.length + cpart.length];
+                System.arraycopy(idpart, 0, payload, 0, idpart.length);
+                System.arraycopy(lpart, 0, payload, idpart.length, lpart.length);
+                System.arraycopy(cpart, 0, payload, idpart.length + lpart.length, cpart.length);
+                return payload;
+        }
+
+        public static byte[] getPayload(long id, long value){
+                return new byte[] {
+                                (byte) (id >>> 56),
+                                (byte) (id >>> 48),
+                                (byte) (id >>> 40),
+                                (byte) (id >>> 32),
+                                (byte) (id >>> 24),
+                                (byte) (id >>> 16),
+                                (byte) (id >>> 8),
+                                (byte) id,
+                                // (byte) 8,
+                                (byte) (value >>> 56),
+                                (byte) (value >>> 48),
+                                (byte) (value >>> 40),
+                                (byte) (value >>> 32),
+                                (byte) (value >>> 24),
+                                (byte) (value >>> 16),
+                                (byte) (value >>> 8),
+                                (byte) value
+                };
+        }
+
+        public static byte[] getPayload(long id, int value){
+                return new byte[] {
+                                (byte) (id >>> 56),
+                                (byte) (id >>> 48),
+                                (byte) (id >>> 40),
+                                (byte) (id >>> 32),
+                                (byte) (id >>> 24),
+                                (byte) (id >>> 16),
+                                (byte) (id >>> 8),
+                                (byte) id,
+                                // (byte) 4,
+                                (byte) (value >>> 24),
+                                (byte) (value >>> 16),
+                                (byte) (value >>> 8),
+                                (byte) value
+                };
+        }
+
+        public static byte[] getPayload(long id, byte[] value){
+                byte[] idpart = new byte[] {
+                                (byte) (id >>> 56),
+                                (byte) (id >>> 48),
+                                (byte) (id >>> 40),
+                                (byte) (id >>> 32),
+                                (byte) (id >>> 24),
+                                (byte) (id >>> 16),
+                                (byte) (id >>> 8),
+                                (byte) id
+                };
+                int length = value.length;
+                byte[] lpart = int2barr(length);
+                byte[] res = new byte[idpart.length + lpart.length + value.length];
+                res[0] = (byte) (id >>> 56);
+                res[1] = (byte) (id >>> 48);
+                res[2] = (byte) (id >>> 40);
+                res[3] = (byte) (id >>> 32);
+                res[4] = (byte) (id >>> 24);
+                res[5] = (byte) (id >>> 16);
+                res[6] = (byte) (id >>> 8);
+                res[7] = (byte) id;
+                System.arraycopy(lpart, 0, res, 8, lpart.length);
+                System.arraycopy(value, 0, res, 8 + lpart.length, value.length);
+                return value;
+        }
+
+
+        public static void logAddressAndId(Object content, long tag){
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, System.identityHashCode(content)));
+                }
         }
 
         public static void logAddress(Object content, String tag){
@@ -115,9 +211,22 @@ public class LumosTracer {
                         emitLog(getPayload(tag + "," + System.identityHashCode(content)));
                 }
         }
+
+        public static void logTraceAndId(Object content, long tag) {
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, (content == null ? "" : content.toString())));
+                }
+        }
+
         public static void logTrace(Object content, String tag) {
                 if (isRecordingOn()) {
                         emitLog(getPayload(tag + (content == null ? "" : content.toString())));
+                }
+        }
+
+        public static void logTraceAndId(int content, long tag) {
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, content));
                 }
         }
 
@@ -127,9 +236,21 @@ public class LumosTracer {
                 }
         }
 
+        public static void logTraceAndId(byte content, long tag) {
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, content));
+                }
+        }
+
         public static void logTrace(byte content, String tag) {
                 if (isRecordingOn()) {
                         emitLog(getPayload(tag +  "," + content));
+                }
+        }
+
+        public static void logTraceAndId(float content, long tag) {
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, ByteBuffer.allocate(4).putFloat(content).array()));
                 }
         }
 
@@ -139,27 +260,56 @@ public class LumosTracer {
                 }
         }
 
+        public static void logTraceAndId(double content, long tag) {
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, ByteBuffer.allocate(8).putDouble(content).array()));
+                }
+        }
+
         public static void logTrace(double content, String tag) {
                 if (isRecordingOn()) {
                         emitLog(getPayload(tag +  "," + content));
                 }
         }
 
+        public static void logTraceAndId(char content, long tag) {
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, content));
+                }
+        }
         public static void logTrace(char content, String tag) {
                 if (isRecordingOn()) {
                         emitLog(getPayload(tag +  "," + content));
                 }
         }
 
+        public static void logTraceAndId(char[] content, long tag) {
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, (new String(content)).getBytes()));
+                }
+        }
+
         public static void logTrace(char[] content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + System.identityHashCode(content)));
+                        emitLog(getPayload(tag +  "," + new String(content)));
+                }
+        }
+
+        public static void logTraceAndId(boolean content, long tag) {
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, content ? 1 : 0));
                 }
         }
 
         public static void logTrace(boolean content, String tag) {
                 if (isRecordingOn()) {
                         emitLog(getPayload(tag +  "," + content));
+                }
+        }
+
+        public static void logTraceAndId(long content, long tag) {
+                if (isRecordingOn()) {
+                        emitLog(getPayload(tag, content));
                 }
         }
 

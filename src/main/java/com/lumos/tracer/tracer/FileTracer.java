@@ -10,13 +10,8 @@ public class FileTracer implements Tracer{
                 logger = Logger.getLogger(LumosTracer.class);
         }
         @Override
-        public void log(String msg) {
-                logger.info(Thread.currentThread().getId() + "," + msg);
-        }
-        @Override
-        public void log(long msg) {
+        public void log(byte[] payload) {
                 // TODO Auto-generated method stub
-                //
                 throw new UnsupportedOperationException("Unimplemented method 'log'");
         }
 

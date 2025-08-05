@@ -1,7 +1,6 @@
 package com.lumos.tracer;
 
 import com.lumos.tracer.tracer.CountingTracer;
-import com.lumos.tracer.tracer.DebugTracer;
 import com.lumos.tracer.tracer.FileTracer;
 import com.lumos.tracer.tracer.HindsightTracer;
 import com.lumos.tracer.tracer.NullTracer;
