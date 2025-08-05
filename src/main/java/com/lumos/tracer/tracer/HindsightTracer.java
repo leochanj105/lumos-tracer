@@ -9,7 +9,7 @@ public class HindsightTracer implements Tracer{
         }
         @Override
         public void log(String msg) {
-                byte[] payload  = msg.getBytes();
+                byte[] payload = (msg + "\n").getBytes();
                 HindsightJNI.hindsightTracepoint(payload, payload.length);
         }
 
