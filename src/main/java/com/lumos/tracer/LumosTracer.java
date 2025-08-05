@@ -354,20 +354,21 @@ public class LumosTracer {
         }
 
         public static void startRecording(String recName){
-                contexts.get().stat.clear();
-                contexts.get().recId = UUID.randomUUID();
-                contexts.get().recName = recName;
-                contexts.get().localLogs.clear();
-                contexts.get().counter = 0;
-                contexts.get().start = System.nanoTime();
-
                 String ltracer = System.getProperty("Ltracer");
                 if(ltracer.equals("hs")){
-                        HindsightJNI.hindsightBegin(contexts.get().recId.getLeastSignificantBits());
+                        HindsightJNI.hindsightBegin(UUID.randomUUID().getLeastSignificantBits());
                         byte[] payload = recName.getBytes();
                         HindsightJNI.hindsightTracepoint(payload, payload.length);
                 }
-                // System.out.println("start rec: " + recName);
+                else{
+                        contexts.get().stat.clear();
+                        contexts.get().recId = UUID.randomUUID();
+                        contexts.get().recName = recName;
+                        contexts.get().localLogs.clear();
+                        contexts.get().counter = 0;
+                        contexts.get().start = System.nanoTime();
+                        System.out.println("start rec: " + recName);
+                }
                 toggle(true);
         }
 
@@ -375,37 +376,26 @@ public class LumosTracer {
                 toggle(false);
 
                 String ltracer = System.getProperty("Ltracer");
-                if(ltracer.equals("hs")){
+                if (ltracer.equals("hs")) {
                         HindsightJNI.hindsightEnd();
-                }
-                contexts.get().end = System.nanoTime();
-                // System.out.println("[LUMOS] recName=" + contexts.get().recName +"::" + contexts.get().recId);
-                // readXX();
-                // System.out.println("[LUMOS] start=" + contexts.get().start);
-                // System.out.println("[LUMOS] end=" + contexts.get().end);
-                // System.out.println(contexts.get().localLogs.size());
-                
-                ThreadContext ctx = LumosTracer.contexts.get();
-                // System.out.println("counter = " + ctx.counter);
-                //if (LumosRegister.ltracer.equals("async")) {
-                // String ltracer = System.getProperty("Ltracer");
-                if (ltracer != null && ltracer.equals("debug")) {
-                        output(ctx.recId, ctx.recName, ctx.localLogs);
                 } else {
-                        String shortName = ctx.recName.substring(1, ctx.recName.indexOf('('));
-                        append(shortName, contexts.get().start, contexts.get().end);
+                        contexts.get().end = System.nanoTime();
+                        System.out.println("[LUMOS] recName=" + contexts.get().recName + "::" + contexts.get().recId);
+                        System.out.println("[LUMOS] start=" + contexts.get().start);
+                        System.out.println("[LUMOS] end=" + contexts.get().end);
+                        System.out.println(contexts.get().localLogs.size());
+
+                        ThreadContext ctx = LumosTracer.contexts.get();
+                        System.out.println("counter = " + ctx.counter);
+                        // if (LumosRegister.ltracer.equals("async")) {
+                        // String ltracer = System.getProperty("Ltracer");
+                        if (ltracer != null && ltracer.equals("debug")) {
+                                output(ctx.recId, ctx.recName, ctx.localLogs);
+                        } else {
+                                String shortName = ctx.recName.substring(1, ctx.recName.indexOf('('));
+                                append(shortName, contexts.get().start, contexts.get().end);
+                        }
                 }
-                // Map<String, List<String>> stat = contexts.get().stat;
-                // for(String s: stat.keySet()){
-                //         System.out.println("[LUMOS] " + s + ": " + stat.get(s).size());
-                // }
-                // for(String s: stat.keySet()){
-                //         System.out.println("-------------------------");
-                //         System.out.println("[LUMOS] " + s);
-                //         for(String inst:stat.get(s)){
-                //                 System.out.println(inst);
-                //         }
-                // }
 
         }
 
