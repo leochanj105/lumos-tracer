@@ -7,18 +7,9 @@ public class XTraceTracer implements Tracer{
         public static final XTraceLogger xtrace = XTrace.getLogger("LUMOS");
 
         @Override
-        public void log(String msg) {
+        public void log(byte[] payload) {
                 try{
-                        xtrace.log(msg);
-                } catch (Throwable e) {
-                        e.printStackTrace();
-                }
-        }
-
-        @Override
-        public void log(long msg) {
-                try{
-                        xtrace.log(""+msg);
+                        xtrace.log(payload+"");
                 } catch (Throwable e) {
                         e.printStackTrace();
                 }

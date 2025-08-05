@@ -25,45 +25,45 @@ public class LumosTracer {
                 System.out.println("end: " + System.nanoTime());
                 System.out.println("counter = " + contexts.get().counter);
         }
-        public static void logIndexedTimedTrace(Object content, int index, String tag, long start, long end) {
-                if (isRecordingOn()) {
-                        toggle(false);
-                        // System.out.println(tag+" before");
-                        log(start + "," + end + "," + +index + "," + tag + "," +
-                                        System.identityHashCode(content));
-                        toggle(true);
-                        // System.out.println(tag+" after");
-                }
-        }
+        // public static void logIndexedTimedTrace(Object content, int index, String tag, long start, long end) {
+        //         if (isRecordingOn()) {
+        //                 toggle(false);
+        //                 // System.out.println(tag+" before");
+        //                 log(start + "," + end + "," + +index + "," + tag + "," +
+        //                                 System.identityHashCode(content));
+        //                 toggle(true);
+        //                 // System.out.println(tag+" after");
+        //         }
+        // }
 
-        public static void logTimedTrace(Object content, String tag, long start, long end) {
-                if (isRecordingOn()) {
-                        toggle(false);
-                        // System.out.println(tag+" before");
-                        log(start + "," + end + "," + tag +  "," + System.identityHashCode(content));
-                        // System.out.println(tag+" after");
-                        toggle(true);
-                }
-        }
+        // public static void logTimedTrace(Object content, String tag, long start, long end) {
+        //         if (isRecordingOn()) {
+        //                 toggle(false);
+        //                 // System.out.println(tag+" before");
+        //                 log(start + "," + end + "," + tag +  "," + System.identityHashCode(content));
+        //                 // System.out.println(tag+" after");
+        //                 toggle(true);
+        //         }
+        // }
 
-        public static void logEmptyTimedTrace(String tag, long start, long end) {
-                // boolean ison = contexts.get().on;
-                // toggle(false);
-                // System.out.println("$$ " + ison);
-                // toggle(ison);
-                if (isRecordingOn()) {
-                        toggle(false);
-                        // System.out.println(tag+" before in empty time");
-                        // try{
-                        log(start + "," + end + "," + tag);
-                        // }
-                        // catch(Exception e){
-                        //         e.printStackTrace();
-                        // }
-                        // System.out.println(tag+" after in empty time");
-                        toggle(true);
-                }
-        }
+        // public static void logEmptyTimedTrace(String tag, long start, long end) {
+        //         // boolean ison = contexts.get().on;
+        //         // toggle(false);
+        //         // System.out.println("$$ " + ison);
+        //         // toggle(ison);
+        //         if (isRecordingOn()) {
+        //                 toggle(false);
+        //                 // System.out.println(tag+" before in empty time");
+        //                 // try{
+        //                 log(start + "," + end + "," + tag);
+        //                 // }
+        //                 // catch(Exception e){
+        //                 //         e.printStackTrace();
+        //                 // }
+        //                 // System.out.println(tag+" after in empty time");
+        //                 toggle(true);
+        //         }
+        // }
         public static void logDebug(String tag){
                 if(isRecordingOn()){
                         toggle(false);
@@ -72,154 +72,107 @@ public class LumosTracer {
                         for (StackTraceElement e : stackTraceElements) {
                                 System.out.println(e.getClassName() + ":" + e.getMethodName());
                         }
-                        // if(tag.length() > 0){
-                        //         throw new RuntimeException("STOP");
-                        // }
                         toggle(true);
                 }
                 else{
-                        // System.out.println(tag);
-                        // StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-                        // System.out.println("!!!");
-                        // for (StackTraceElement e : stackTraceElements) {
-                        //         System.out.println(e.getClassName() + ":" + e.getMethodName());
-                        // }
                 }
         }
         public static void logDebug2(String tag, long start, long end){
                 if(isRecordingOn()){
-                        toggle(false);
                         System.out.println(tag+":"+start+","+end);
-                        toggle(true);
                 }
-                // else{
-                //         System.out.println(tag + ":"+start+","+end+" ??");
-                // }
         }
-        public static void logClass(Object content, String tag){
-                if (isRecordingOn()) {
-                        toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag +  "," + content.getClass());
-                        // System.out.println(tag+" after");
-                        toggle(true);
-                }
+        // public static void logClass(Object content, String tag){
+        //         if (isRecordingOn()) {
+        //                 emitLog(tag +  "," + content.getClass());
+        //         }
+        // }
+        public static byte[] long2barr(long value) {
+                return new byte[] {
+                                (byte) (value >>> 56),
+                                (byte) (value >>> 48),
+                                (byte) (value >>> 40),
+                                (byte) (value >>> 32),
+                                (byte) (value >>> 24),
+                                (byte) (value >>> 16),
+                                (byte) (value >>> 8),
+                                (byte)  value
+                };
+        }
+
+        public static byte[] getPayload(String s){
+                int length = s.length();
+                byte[] lpart = long2barr(length);
+                byte[] content = s.getBytes();
+                byte[] payload = new byte[length + content.length];
+                System.arraycopy(lpart, 0, payload, 0, 8);
+                System.arraycopy(content, 0, payload, 8, payload.length);
+                return payload;
         }
 
         public static void logAddress(Object content, String tag){
-                // System.out.println("nohash = " + noHash); 
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        // if (noHash) {
-                        //         // System.out.println("nohash!!");
-                        //         log(System.identityHashCode(tracer));
-                        // } else {
-                                log(tag + "," + System.identityHashCode(content));
-                        // log(System.identityHashCode(content));
-                        // log(tag);
-                        // }
-                        // System.out.println(tag+" after");
-                        // toggle(true);
+                        emitLog(getPayload(tag + "," + System.identityHashCode(content)));
                 }
         }
         public static void logTrace(Object content, String tag) {
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag + (content == null ? "" : content.toString()));
-                        // System.out.println(tag+" after");
-                        // toggle(true);
+                        emitLog(getPayload(tag + (content == null ? "" : content.toString())));
                 }
         }
 
         public static void logTrace(int content, String tag) {
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag +  "," + content);
-                        // System.out.println(tag+" after");
-                        // toggle(true);
+                        emitLog(getPayload(tag +  "," + content));
                 }
         }
 
         public static void logTrace(byte content, String tag) {
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag +  "," + content);
-                        // System.out.println(tag+" after");
-                        // toggle(true);
+                        emitLog(getPayload(tag +  "," + content));
                 }
         }
 
         public static void logTrace(float content, String tag) {
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag +  "," + content);
-                        // System.out.println(tag+" after");
-                        // toggle(true);
+                        emitLog(getPayload(tag +  "," + content));
                 }
         }
 
         public static void logTrace(double content, String tag) {
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag +  "," + content);
-                        // System.out.println(tag+" after");
-                        // toggle(true);
+                        emitLog(getPayload(tag +  "," + content));
                 }
         }
 
         public static void logTrace(char content, String tag) {
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag +  "," + content);
-                        // System.out.println(tag+" after");
-                        // toggle(true);
+                        emitLog(getPayload(tag +  "," + content));
                 }
         }
 
         public static void logTrace(char[] content, String tag) {
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag +  "," + System.identityHashCode(content));
-                        // System.out.println(tag+" after");
-                        // toggle(true);
+                        emitLog(getPayload(tag +  "," + System.identityHashCode(content)));
                 }
         }
 
         public static void logTrace(boolean content, String tag) {
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag +  "," + content);
-                        // System.out.println(tag+" after");
-                        // toggle(true);
+                        emitLog(getPayload(tag +  "," + content));
                 }
         }
 
         public static void logTrace(long content, String tag) {
                 if (isRecordingOn()) {
-                        // toggle(false);
-                        // System.out.println(tag+" before");
-                        log(tag +  "," + content);
-                        // System.out.println(tag+" before");
-                        // toggle(true);
+                        emitLog(getPayload(tag +  "," + content));
                 }
         }
 
-        public static void log(String s) {
-                tracer.log(s);
+        public static void emitLog(byte[] payload) {
+                tracer.log(payload);
         }
 
-        public static void log(long hc) {
-                tracer.log(hc);
-        }
 
         public static boolean isRecordingOn() {
                 // StackTraceElement[] stack = (new Throwable()).getStackTrace();
@@ -376,7 +329,6 @@ public class LumosTracer {
 
         public static void resetCounter(){
                 contexts.get().counter = 0;
-                tracer.log("begin entry func");
                 System.out.println("begin: " + System.nanoTime());
         }
 

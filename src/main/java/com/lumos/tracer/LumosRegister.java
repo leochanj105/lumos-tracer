@@ -24,7 +24,7 @@ public class LumosRegister{
         public static void registerTracer(String ltracer) {
                 try {
                         if (ltracer.equals("file")) {
-                                LumosTracer.tracer = new FileTracer();
+                                // LumosTracer.tracer = new FileTracer();
                         } else if (ltracer.equals("async")) {
                                 SimulatedAsyncTracer stracer = new SimulatedAsyncTracer();
                                 LumosTracer.tracer = stracer;
@@ -33,7 +33,7 @@ public class LumosRegister{
                                         SimulatedAsyncTracer.LOG_LATENCY = Long.valueOf(lat);
                                 }
                         } else if (ltracer.equals("debug")) {
-                                LumosTracer.tracer = new DebugTracer();
+                                // LumosTracer.tracer = new DebugTracer();
                         } else if (ltracer.equals("xtrace")) {
                                 LumosTracer.tracer = new XTraceTracer();
                         } else if (ltracer.equals("counting")) {
