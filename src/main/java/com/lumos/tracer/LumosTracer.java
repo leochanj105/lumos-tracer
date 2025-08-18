@@ -9,7 +9,12 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
 
+import com.google.protobuf.ByteString;
 import com.lumos.tracer.tracer.Tracer;
+
+import edu.brown.cs.systems.baggage.Baggage;
+import edu.brown.cs.systems.baggage.BaggageContents;
+import edu.brown.cs.systems.pivottracing.baggage.BaggageProtos.Bag;
 
 public class LumosTracer {
         public static ThreadLocal<ThreadContext> contexts = ThreadLocal.withInitial(() -> new ThreadContext());
@@ -353,6 +358,14 @@ public class LumosTracer {
                 System.out.println(XX);
         }
 
+        public static void addCallerBaggage(){
+                String callerID = UUID.randomUUID().toString();
+                // System.out.println("caller:" + callerID);
+                // -2 for callerID at caller
+                LumosTracer.logTraceAndId(callerID, -2);
+                BaggageContents.add("Lumos", "caller", callerID);
+        }
+
         public static void startRecording(String recName){
                 String ltracer = System.getProperty("Ltracer");
                 if(ltracer.equals("hs")){
@@ -369,12 +382,23 @@ public class LumosTracer {
                         contexts.get().start = System.nanoTime();
                         System.out.println("start rec: " + recName);
                 }
+                // System.out.println("start rec: " + recName);
+                if (BaggageContents.contains(ByteString.copyFromUtf8("Lumos"),
+                                ByteString.copyFromUtf8("caller"))) {
+                        byte[] callerID = BaggageContents.get("Lumos", "caller").iterator().next().toByteArray();
+                        // -1 for callerID at callee
+                        LumosTracer.logTraceAndId(callerID, -1);
+                        BaggageContents.removeAll("Lumos");
+                }
+                // -3 for start time
+                LumosTracer.logTraceAndId(System.nanoTime(),-3);
                 toggle(true);
         }
 
         public static void endRecording(){
                 toggle(false);
-
+                // -4 for end time
+                LumosTracer.logTraceAndId(System.nanoTime(),-4);
                 String ltracer = System.getProperty("Ltracer");
                 if (ltracer.equals("hs")) {
                         HindsightJNI.hindsightEnd();
