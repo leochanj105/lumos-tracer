@@ -213,7 +213,7 @@ public class LumosTracer {
 
         public static void logAddress(Object content, String tag){
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag + "," + System.identityHashCode(content)));
+                        emitLog(getPayload(tag + "," + System.identityHashCode(content)+"\n"));
                 }
         }
 
@@ -225,7 +225,7 @@ public class LumosTracer {
 
         public static void logTrace(Object content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag + (content == null ? "" : content.toString())));
+                        emitLog(getPayload(tag + (content == null ? "" : content.toString())+"\n"));
                 }
         }
 
@@ -237,7 +237,7 @@ public class LumosTracer {
 
         public static void logTrace(int content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content));
+                        emitLog(getPayload(tag +  "," + content+"\n"));
                 }
         }
 
@@ -249,7 +249,7 @@ public class LumosTracer {
 
         public static void logTrace(byte content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content));
+                        emitLog(getPayload(tag +  "," + content+"\n"));
                 }
         }
 
@@ -261,7 +261,7 @@ public class LumosTracer {
 
         public static void logTrace(float content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content));
+                        emitLog(getPayload(tag +  "," + content+"\n"));
                 }
         }
 
@@ -273,7 +273,7 @@ public class LumosTracer {
 
         public static void logTrace(double content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content));
+                        emitLog(getPayload(tag +  "," + content+"\n"));
                 }
         }
 
@@ -284,7 +284,7 @@ public class LumosTracer {
         }
         public static void logTrace(char content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content));
+                        emitLog(getPayload(tag +  "," + content+"\n"));
                 }
         }
 
@@ -296,7 +296,7 @@ public class LumosTracer {
 
         public static void logTrace(char[] content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + new String(content)));
+                        emitLog(getPayload(tag +  "," + new String(content)+"\n"));
                 }
         }
 
@@ -308,7 +308,7 @@ public class LumosTracer {
 
         public static void logTrace(boolean content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content));
+                        emitLog(getPayload(tag +  "," + content+"\n"));
                 }
         }
 
@@ -320,7 +320,7 @@ public class LumosTracer {
 
         public static void logTrace(long content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content));
+                        emitLog(getPayload(tag +  "," + content+"\n"));
                 }
         }
 
