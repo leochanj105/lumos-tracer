@@ -369,6 +369,7 @@ public class LumosTracer {
 
         public static void startRecording(String recName){
                 String ltracer = System.getProperty("Ltracer");
+                toggle(true);
                 if(ltracer.equals("hs")){
                         HindsightJNI.hindsightBegin(UUID.randomUUID().getLeastSignificantBits());
                         byte[] payload = recName.getBytes();
@@ -396,20 +397,21 @@ public class LumosTracer {
                 if (verbose.equals("performance")) {
                         LumosTracer.logTraceAndId(start, -3);
                 } else {
-                        LumosTracer.logTrace(start, "START_STAMP");
+                        System.out.println(verbose);
+                        LumosTracer.logTrace(start + "", "START_STAMP");
                 }
-                toggle(true);
         }
 
         public static void endRecording(){
-                toggle(false);
                 // -4 for end time
                 long end = System.nanoTime();
                 if (verbose.equals("performance")) {
                         LumosTracer.logTraceAndId(end, -4);
                 } else {
-                        LumosTracer.logTrace(end, "END_STAMP");
+                        LumosTracer.logTrace(end + "", "END_STAMP");
                 }
+
+                toggle(false);
                 String ltracer = System.getProperty("Ltracer");
                 if (ltracer.equals("hs")) {
                         HindsightJNI.hindsightEnd();
