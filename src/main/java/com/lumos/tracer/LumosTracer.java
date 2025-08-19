@@ -6,15 +6,12 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 import java.util.UUID;
 
 import com.google.protobuf.ByteString;
 import com.lumos.tracer.tracer.Tracer;
 
-import edu.brown.cs.systems.baggage.Baggage;
 import edu.brown.cs.systems.baggage.BaggageContents;
-import edu.brown.cs.systems.pivottracing.baggage.BaggageProtos.Bag;
 
 public class LumosTracer {
         public static ThreadLocal<ThreadContext> contexts = ThreadLocal.withInitial(() -> new ThreadContext());
@@ -22,7 +19,11 @@ public class LumosTracer {
         public static long XX = 0;
         public static String dir = System.getenv("LUMOS_LOG_DIR");
         public static boolean noHash = System.getProperty("NoHash") != null;
+        public static String verbose = System.getProperty("verbose");
         static {
+                if(verbose == null){
+                        verbose = "debug";
+                }
         }
         public static void logNull(Object obj, String tag){
 
@@ -391,14 +392,24 @@ public class LumosTracer {
                         BaggageContents.removeAll("Lumos");
                 }
                 // -3 for start time
-                LumosTracer.logTraceAndId(System.nanoTime(),-3);
+                long start = System.nanoTime();
+                if (verbose.equals("performance")) {
+                        LumosTracer.logTraceAndId(start, -3);
+                } else {
+                        LumosTracer.logTrace(start, "START_STAMP");
+                }
                 toggle(true);
         }
 
         public static void endRecording(){
                 toggle(false);
                 // -4 for end time
-                LumosTracer.logTraceAndId(System.nanoTime(),-4);
+                long end = System.nanoTime();
+                if (verbose.equals("performance")) {
+                        LumosTracer.logTraceAndId(end, -4);
+                } else {
+                        LumosTracer.logTrace(end, "END_STAMP");
+                }
                 String ltracer = System.getProperty("Ltracer");
                 if (ltracer.equals("hs")) {
                         HindsightJNI.hindsightEnd();
