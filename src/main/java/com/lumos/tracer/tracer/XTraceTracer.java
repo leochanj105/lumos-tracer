@@ -1,18 +1,20 @@
-package com.lumos.tracer.tracer;
+// package com.lumos.tracer.tracer;
 
-import edu.brown.cs.systems.xtrace.XTrace;
-import edu.brown.cs.systems.xtrace.logging.XTraceLogger;
+// import java.nio.ByteBuffer;
 
-public class XTraceTracer implements Tracer{
-        public static final XTraceLogger xtrace = XTrace.getLogger("LUMOS");
+// import edu.brown.cs.systems.xtrace.XTrace;
+// import edu.brown.cs.systems.xtrace.logging.XTraceLogger;
 
-        @Override
-        public void log(byte[] payload) {
-                try{
-                        xtrace.log(payload+"");
-                } catch (Throwable e) {
-                        e.printStackTrace();
-                }
-        }
+// public class XTraceTracer implements Tracer{
+//         public static final XTraceLogger xtrace = XTrace.getLogger("LUMOS");
 
-}
+//         @Override
+//         public void log(ByteBuffer payload) {
+//                 try{
+//                         xtrace.log(payload+"");
+//                 } catch (Throwable e) {
+//                         e.printStackTrace();
+//                 }
+//         }
+
+// }

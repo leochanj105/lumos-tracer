@@ -1,7 +1,9 @@
 package com.lumos.tracer.tracer;
 
+import java.nio.ByteBuffer;
+
 public class SimulatedAsyncTracer implements Tracer{
-        public static long LOG_LATENCY = 40;
+        // public static long LOG_LATENCY = 40;
 
         public static int loop(){
                 if(System.nanoTime() >100){
@@ -16,8 +18,9 @@ public class SimulatedAsyncTracer implements Tracer{
                 // }
         }
 
+
         @Override
-        public void log(byte[] payload) {
+        public void log(ByteBuffer payload) {
                 loop();
         }
 

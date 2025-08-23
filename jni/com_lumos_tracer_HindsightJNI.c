@@ -14,15 +14,15 @@ JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightInit
   }
 
 JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightTracepoint
-  (JNIEnv * env, jclass cls, jbyteArray payload, jint size){
-    jboolean isCopy;
-    char * pCData = (char*)(*env)->GetByteArrayElements(env, payload, &isCopy);
-
-    hindsight_tracepoint(pCData, size);
-    if(isCopy)
-    {
-      (*env)->ReleaseByteArrayElements(env, payload, pCData, JNI_ABORT);
-    }
+  (JNIEnv * env, jclass cls, jobject payload, jint size){
+    //jboolean isCopy;
+    //char * pCData = (char*)(*env)->GetByteArrayElements(env, payload, &isCopy);
+    char *buf = (*env)->GetDirectBufferAddress(env, payload);
+    hindsight_tracepoint(buf, size);
+    //if(isCopy)
+    //{
+    //  (*env)->ReleaseByteArrayElements(env, payload, pCData, JNI_ABORT);
+    //}
   }
 
 JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightBegin

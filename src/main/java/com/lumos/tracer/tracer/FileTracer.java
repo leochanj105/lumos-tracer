@@ -1,5 +1,7 @@
 package com.lumos.tracer.tracer;
 
+import java.nio.ByteBuffer;
+
 import org.apache.log4j.Logger;
 
 import com.lumos.tracer.LumosTracer;
@@ -10,7 +12,7 @@ public class FileTracer implements Tracer{
                 logger = Logger.getLogger(LumosTracer.class);
         }
         @Override
-        public void log(byte[] payload) {
+        public void log(ByteBuffer payload) {
                 // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'log'");
         }

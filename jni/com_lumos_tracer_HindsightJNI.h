@@ -18,10 +18,10 @@ JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightInit
 /*
  * Class:     com_lumos_tracer_HindsightJNI
  * Method:    hindsightTracepoint
- * Signature: ([BI)V
+ * Signature: (Ljava/nio/ByteBuffer;I)V
  */
 JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightTracepoint
-  (JNIEnv *, jclass, jbyteArray, jint);
+  (JNIEnv *, jclass, jobject, jint);
 
 /*
  * Class:     com_lumos_tracer_HindsightJNI

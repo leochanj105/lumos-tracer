@@ -1,9 +1,11 @@
-package com.lumos.tracer.tracer;
+// package com.lumos.tracer.tracer;
 
-public class NullTracer implements Tracer{
+// import java.nio.ByteBuffer;
 
-        @Override
-        public void log(byte[] payload) {
-        }
+// public class NullTracer implements Tracer {
 
-}
+//         @Override
+//         public void log(ByteBuffer payload) {
+//         }
+
+// }
