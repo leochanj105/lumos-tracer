@@ -20,7 +20,7 @@ public class SimulatedAsyncTracer implements Tracer{
 
 
         @Override
-        public void log(ByteBuffer payload) {
+        public void log(byte[] payload) {
                 loop();
         }
 

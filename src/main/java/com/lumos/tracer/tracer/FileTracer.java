@@ -1,20 +1,20 @@
-package com.lumos.tracer.tracer;
+// package com.lumos.tracer.tracer;
 
-import java.nio.ByteBuffer;
+// import java.nio.ByteBuffer;
 
-import org.apache.log4j.Logger;
+// import org.apache.log4j.Logger;
 
-import com.lumos.tracer.LumosTracer;
+// import com.lumos.tracer.LumosTracer;
 
-public class FileTracer implements Tracer{
-        public static Logger logger;
-        static {
-                logger = Logger.getLogger(LumosTracer.class);
-        }
-        @Override
-        public void log(ByteBuffer payload) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'log'");
-        }
+// public class FileTracer implements Tracer{
+//         public static Logger logger;
+//         static {
+//                 logger = Logger.getLogger(LumosTracer.class);
+//         }
+//         @Override
+//         public void log(ByteBuffer payload) {
+//                 // TODO Auto-generated method stub
+//                 throw new UnsupportedOperationException("Unimplemented method 'log'");
+//         }
 
-}
+// }

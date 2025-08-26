@@ -18,18 +18,10 @@ JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightInit
 /*
  * Class:     com_lumos_tracer_HindsightJNI
  * Method:    hindsightTracepoint
- * Signature: (Ljava/nio/ByteBuffer;I)V
+ * Signature: ([BI)V
  */
 JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightTracepoint
-  (JNIEnv *, jclass, jobject, jint);
-
-/*
- * Class:     com_lumos_tracer_HindsightJNI
- * Method:    hindsightBegin
- * Signature: (J)V
- */
-JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightBegin
-  (JNIEnv *, jclass, jlong);
+  (JNIEnv *, jclass, jbyteArray, jint);
 
 /*
  * Class:     com_lumos_tracer_HindsightJNI
@@ -38,6 +30,22 @@ JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightBegin
  */
 JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightEnd
   (JNIEnv *, jclass);
+
+/*
+ * Class:     com_lumos_tracer_HindsightJNI
+ * Method:    switchBufferNative
+ * Signature: ()Ljava/nio/ByteBuffer;
+ */
+JNIEXPORT jobject JNICALL Java_com_lumos_tracer_HindsightJNI_switchBufferNative
+  (JNIEnv *, jclass);
+
+/*
+ * Class:     com_lumos_tracer_HindsightJNI
+ * Method:    hindsightBegin
+ * Signature: (J)V
+ */
+JNIEXPORT void JNICALL Java_com_lumos_tracer_HindsightJNI_hindsightBegin
+  (JNIEnv *, jclass, jlong);
 
 #ifdef __cplusplus
 }

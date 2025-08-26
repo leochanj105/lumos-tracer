@@ -1,13 +1,9 @@
 package com.lumos.tracer;
 
-import com.lumos.tracer.tracer.CountingTracer;
 import com.lumos.tracer.tracer.DebugTracer;
-import com.lumos.tracer.tracer.FileTracer;
 import com.lumos.tracer.tracer.HindsightTracer;
-import com.lumos.tracer.tracer.NullTracer;
 import com.lumos.tracer.tracer.SimulatedAsyncTracer;
 import com.lumos.tracer.tracer.Tracer;
-import com.lumos.tracer.tracer.XTraceTracer;
 
 public class LumosRegister{
         // public static Tracer tracer;
@@ -41,7 +37,10 @@ public class LumosRegister{
                         } else if (ltracer.equals("opentelemetry")) {
                                 // FIXME: No OTLP for now
                         } else if (ltracer.equals("hs")){
-                                LumosTracer.tracer = new HindsightTracer();
+                                HindsightTracer t = new HindsightTracer();
+                                LumosTracer.tracer = t;
+                                t.warmup();
+
                         }
                         else {
                                 // LumosTracer.tracer = new NullTracer();

@@ -7,5 +7,5 @@ public interface Tracer{
 
         // public void log(long msg);
 
-        public void log(ByteBuffer payload);
+        public void log(byte[] payload);
 }

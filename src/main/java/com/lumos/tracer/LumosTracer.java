@@ -11,6 +11,8 @@ import java.util.UUID;
 import javax.print.DocFlavor.BYTE_ARRAY;
 
 import com.google.protobuf.ByteString;
+import com.lumos.tracer.HindsightJNI.HSTrace;
+import com.lumos.tracer.tracer.HindsightTracer;
 import com.lumos.tracer.tracer.Tracer;
 
 import edu.brown.cs.systems.baggage.BaggageContents;
@@ -27,6 +29,21 @@ public class LumosTracer {
                 if(verbose == null){
                         verbose = "debug";
                 }
+
+                // String ltracer = System.getProperty("Ltracer");
+                // if (ltracer.equals("hs")) {
+                //         System.out.println("initting done; warming up...");
+                //         HindsightJNI.hindsightBegin(0);
+                //         HSTrace t = new HSTrace();
+                //         byte[] bs = new byte[16];
+                //         // trigger JIT compilation
+                //         for (int i = 0; i < 100000; i++) {
+                //                 // LumosTracer.logAddressAndId(null, 0);
+                //                 // LumosTracer.logTraceAndId(0, 0);
+                //                 t.hs_tracecpoint(bs);
+                //         }
+                //         HindsightJNI.hindsightEnd();
+                // }
         }
         public static void logNull(Object obj, String tag){
 
@@ -48,143 +65,23 @@ public class LumosTracer {
                 else{
                 }
         }
-        public static void logDebug2(String tag, long start, long end){
-                if(isRecordingOn()){
-                        System.out.println(tag+":"+start+","+end);
-                }
-        }
-        public static ByteBuffer long2barr(long value) {
-                // return new byte[8];
-                return ByteBuffer.allocateDirect(8).putLong(value);
-                // return new byte[] {
-                //                 (byte) (value >>> 56),
-                //                 (byte) (value >>> 48),
-                //                 (byte) (value >>> 40),
-                //                 (byte) (value >>> 32),
-                //                 (byte) (value >>> 24),
-                //                 (byte) (value >>> 16),
-                //                 (byte) (value >>> 8),
-                //                 (byte) value
-                // };
-        }
 
-        public static ByteBuffer int2barr(int value) {
-                // return new byte[8];
-                return ByteBuffer.allocateDirect(4).putInt(value);
-                // return new byte[] {
-                //                 (byte) (value >>> 24),
-                //                 (byte) (value >>> 16),
-                //                 (byte) (value >>> 8),
-                //                 (byte)  value
-                // };
-        }
+        public static void fakelog(byte[] b){
 
-        public static ByteBuffer getPayload(String s){
-                // return new byte[s.length() + 4];
-                byte[] sb = s.getBytes();
-                ByteBuffer buf = ByteBuffer.allocateDirect(sb.length + 4).putInt(sb.length).put(sb);
-                // buf.putInt(s.length());
-                // buf.put(s.getBytes());
-                // int length = s.length();
-                // byte[] lpart = int2barr(length);
-                // byte[] content = s.getBytes();
-                // byte[] payload = new byte[lpart.length + content.length];
-                // System.arraycopy(lpart, 0, payload, 0, lpart.length);
-                // System.arraycopy(content, 0, payload, lpart.length, content.length);
-                return buf;
-        }
-
-        public static ByteBuffer getPayload(long id, String content){
-                // return new byte[content.length() + 4];
-                byte[] sb = content.getBytes();
-                ByteBuffer buf = ByteBuffer.allocateDirect(sb.length + 12).putLong(id).putInt(sb.length).put(sb);
-                // byte[] idpart = long2barr(id);
-                // int length = content.length();
-                // byte[] lpart = int2barr(length);
-                // byte[] cpart = content.getBytes();
-                // byte[] payload = new byte[idpart.length + lpart.length + cpart.length];
-                // System.arraycopy(idpart, 0, payload, 0, idpart.length);
-                // System.arraycopy(lpart, 0, payload, idpart.length, lpart.length);
-                // System.arraycopy(cpart, 0, payload, idpart.length + lpart.length, cpart.length);
-                return buf;
-        }
-
-        public static ByteBuffer getPayload(long id, long value){
-                return ByteBuffer.allocateDirect(16).putLong(id).putLong(value);
-                // return new byte[] {
-                //                 (byte) (id >>> 56),
-                //                 (byte) (id >>> 48),
-                //                 (byte) (id >>> 40),
-                //                 (byte) (id >>> 32),
-                //                 (byte) (id >>> 24),
-                //                 (byte) (id >>> 16),
-                //                 (byte) (id >>> 8),
-                //                 (byte) id,
-                //                 // (byte) 8,
-                //                 (byte) (value >>> 56),
-                //                 (byte) (value >>> 48),
-                //                 (byte) (value >>> 40),
-                //                 (byte) (value >>> 32),
-                //                 (byte) (value >>> 24),
-                //                 (byte) (value >>> 16),
-                //                 (byte) (value >>> 8),
-                //                 (byte) value
-                // };
-        }
-
-        public static ByteBuffer getPayload(long id, int value){
-                return ByteBuffer.allocateDirect(12).putLong(id).putInt(value);
-                // return new byte[8];
-                // return new byte[] {
-                //                 (byte) (id >>> 56),
-                //                 (byte) (id >>> 48),
-                //                 (byte) (id >>> 40),
-                //                 (byte) (id >>> 32),
-                //                 (byte) (id >>> 24),
-                //                 (byte) (id >>> 16),
-                //                 (byte) (id >>> 8),
-                //                 (byte) id,
-                //                 // (byte) 4,
-                //                 (byte) (value >>> 24),
-                //                 (byte) (value >>> 16),
-                //                 (byte) (value >>> 8),
-                //                 (byte) value
-                // };
-        }
-
-        public static ByteBuffer getPayload(long id, byte[] value){
-                return ByteBuffer.allocateDirect(value.length + 12).putLong(id).putInt(value.length).put(value);
-                // return new byte[4+value.length];
-                // byte[] idpart = new byte[] {
-                //                 (byte) (id >>> 56),
-                //                 (byte) (id >>> 48),
-                //                 (byte) (id >>> 40),
-                //                 (byte) (id >>> 32),
-                //                 (byte) (id >>> 24),
-                //                 (byte) (id >>> 16),
-                //                 (byte) (id >>> 8),
-                //                 (byte) id
-                // };
-                // int length = value.length;
-                // byte[] lpart = int2barr(length);
-                // byte[] res = new byte[idpart.length + lpart.length + value.length];
-                // res[0] = (byte) (id >>> 56);
-                // res[1] = (byte) (id >>> 48);
-                // res[2] = (byte) (id >>> 40);
-                // res[3] = (byte) (id >>> 32);
-                // res[4] = (byte) (id >>> 24);
-                // res[5] = (byte) (id >>> 16);
-                // res[6] = (byte) (id >>> 8);
-                // res[7] = (byte) id;
-                // System.arraycopy(lpart, 0, res, 8, lpart.length);
-                // System.arraycopy(value, 0, res, 8 + lpart.length, value.length);
-                // return value;
         }
 
 
-        public static void logAddressAndId(Object content, long tag){
+        public static void logAddressAndId(Object content, int tag) {
+                // byte[] y = new byte[8];
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, System.identityHashCode(content)));
+                        // int N = Integer.valueOf(System.getenv("DVALUE"));
+                        // long start = System.nanoTime();
+
+                        // for (int i = 0; i < N; i++) {
+                                tracer.log(Utils.getPayload(tag, System.identityHashCode(content)));
+                        // }
+                        // long end = System.nanoTime();
+                        // System.out.println("## Addr time:" + (end - start) / N);
                 }
         }
 
@@ -196,8 +93,8 @@ public class LumosTracer {
                 //         // if (tag.contains("add(")) {
                 //         //         Map m = (Map) content;
                 //         //         for (Object o : m.values()) {
-                //         //                 // emitLog(getPayload("hc:" + System.identityHashCode(o)));
-                //         //                 // emitLog(getPayload("str:" + o));
+                //         //                 // tracer.log(getPayload("hc:" + System.identityHashCode(o)));
+                //         //                 // tracer.log(getPayload("str:" + o));
 
                 //         //                 System.out.println("hc:" + System.identityHashCode(o));
 
@@ -212,121 +109,121 @@ public class LumosTracer {
                 //         toggle(true);
                 // }
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag + "," + System.identityHashCode(content)+"\n"));
+                        tracer.log(Utils.getPayload(tag + "," + System.identityHashCode(content)+"\n"));
 
                 }
         }
 
-        public static void logTraceAndId(Object content, long tag) {
+        public static void logTraceAndId(Object content, int tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, (content == null ? "" : content.toString())));
+                        tracer.log(Utils.getPayload(tag, (content == null ? "" : content.toString())));
                 }
         }
 
         public static void logTrace(Object content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag + (content == null ? "" : content.toString())+"\n"));
+                        tracer.log(Utils.getPayload(tag + (content == null ? "" : content.toString())+"\n"));
                 }
         }
 
-        public static void logTraceAndId(int content, long tag) {
+        public static void logTraceAndId(int content, int tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, content));
+                        tracer.log(Utils.getPayload(tag, content));
                 }
         }
 
         public static void logTrace(int content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content+"\n"));
+                        tracer.log(Utils.getPayload(tag +  "," + content+"\n"));
                 }
         }
 
-        public static void logTraceAndId(byte content, long tag) {
+        public static void logTraceAndId(byte content, int tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, content));
+                        tracer.log(Utils.getPayload(tag, content));
                 }
         }
 
         public static void logTrace(byte content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content+"\n"));
+                        tracer.log(Utils.getPayload(tag +  "," + content+"\n"));
                 }
         }
 
-        public static void logTraceAndId(float content, long tag) {
+        public static void logTraceAndId(float content, int tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, ByteBuffer.allocate(4).putFloat(content).array()));
+                        tracer.log(Utils.getPayload(tag, ByteBuffer.allocate(4).putFloat(content).array()));
                 }
         }
 
         public static void logTrace(float content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content+"\n"));
+                        tracer.log(Utils.getPayload(tag +  "," + content+"\n"));
                 }
         }
 
-        public static void logTraceAndId(double content, long tag) {
+        public static void logTraceAndId(double content, int tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, ByteBuffer.allocate(8).putDouble(content).array()));
+                        tracer.log(Utils.getPayload(tag, ByteBuffer.allocate(8).putDouble(content).array()));
                 }
         }
 
         public static void logTrace(double content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content+"\n"));
+                        tracer.log(Utils.getPayload(tag +  "," + content+"\n"));
                 }
         }
 
-        public static void logTraceAndId(char content, long tag) {
+        public static void logTraceAndId(char content, int tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, content));
+                        tracer.log(Utils.getPayload(tag, content));
                 }
         }
         public static void logTrace(char content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content+"\n"));
+                        tracer.log(Utils.getPayload(tag +  "," + content+"\n"));
                 }
         }
 
-        public static void logTraceAndId(char[] content, long tag) {
+        public static void logTraceAndId(char[] content, int tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, (new String(content)).getBytes()));
+                        tracer.log(Utils.getPayload(tag, (new String(content)).getBytes()));
                 }
         }
 
         public static void logTrace(char[] content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + new String(content)+"\n"));
+                        tracer.log(Utils.getPayload(tag +  "," + new String(content)+"\n"));
                 }
         }
 
-        public static void logTraceAndId(boolean content, long tag) {
+        public static void logTraceAndId(boolean content, int tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, content ? 1 : 0));
+                        tracer.log(Utils.getPayload(tag, content ? 1 : 0));
                 }
         }
 
         public static void logTrace(boolean content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content+"\n"));
+                        tracer.log(Utils.getPayload(tag +  "," + content+"\n"));
                 }
         }
 
-        public static void logTraceAndId(long content, long tag) {
+        public static void logTraceAndId(long content, int tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag, content));
+                        tracer.log(Utils.getPayload(tag, content));
                 }
         }
 
         public static void logTrace(long content, String tag) {
                 if (isRecordingOn()) {
-                        emitLog(getPayload(tag +  "," + content+"\n"));
+                        tracer.log(Utils.getPayload(tag +  "," + content+"\n"));
                 }
         }
 
-        public static void emitLog(ByteBuffer payload) {
-                tracer.log(payload);
-        }
+        // public static void tracer.log(byte[] payload) {
+        //         tracer.log(payload);
+        // }
 
 
         public static boolean isRecordingOn() {
@@ -362,18 +259,23 @@ public class LumosTracer {
                 String callerID = UUID.randomUUID().toString();
                 // System.out.println("caller:" + callerID);
                 // -2 for callerID at caller
-                LumosTracer.logTraceAndId(callerID, -2);
+                LumosTracer.logTraceAndId("caller-side:"+callerID, -2);
                 // System.out.println(callerID);
                 BaggageContents.add("Lumos", "caller", callerID);
         }
 
         public static void startRecording(String recName){
+                if(!System.getProperty("mode").equals("on")){
+                        return;
+                }
                 String ltracer = System.getProperty("Ltracer");
-
                 toggle(true);
                 if(ltracer.equals("hs")){
+                        contexts.get().recName = recName;
+                        contexts.get().recId = UUID.randomUUID();
+                        contexts.get().hstrace = new HindsightJNI.HSTrace();
                         HindsightJNI.hindsightBegin(UUID.randomUUID().getLeastSignificantBits());
-
+                        // System.out.println("%%%" + contexts.get().hstrace);
                         // -3 for start time
                         long start = System.nanoTime();
                         if (verbose.equals("performance")) {
@@ -389,11 +291,10 @@ public class LumosTracer {
                                 // byte[] payload = recName.getBytes();
                                 // ByteBuffer buf = ByteBuffer.allocateDirect(payload.length).put(payload);
                                 // HindsightJNI.hindsightTracepoint(buf, payload.length);
-                                LumosTracer.logTrace(recName, "recName");
-                                LumosTracer.logTrace(start + "", "START_STAMP");
+                                LumosTracer.logTrace(recName, "recName:");
+                                LumosTracer.logTrace(start + "", "START_STAMP:");
                         }
                 } else {
-
                         if (ltracer.equals("debug")) {
                                 contexts.get().stat.clear();
                                 contexts.get().recId = UUID.randomUUID();
@@ -409,25 +310,40 @@ public class LumosTracer {
                         String callerID = BaggageContents.getStrings("Lumos", "caller").iterator().next();
                                         // .toByteArray();
                         // -1 for callerID at callee
-                        LumosTracer.logTraceAndId(callerID,-1);
+                        LumosTracer.logTraceAndId("callee-side:"+callerID,-1);
                         // System.out.println(callerID);
                         BaggageContents.removeAll("Lumos");
                 }
         }
 
+        // public static void HSEndTrace() {
+        //         contexts.get().hstrace.returnBuffer();
+        // }
+
         public static void endRecording(){
+
                 // -4 for end time
                 long end = System.nanoTime();
 
+                if(!System.getProperty("mode").equals("on")){
+                        return;
+                }
                 String ltracer = System.getProperty("Ltracer");
-                if (ltracer.equals("hs")) {
+                if (ltracer.equals("hs") && contexts.get().hstrace != null) {
                         if (verbose.equals("performance")) {
                                 LumosTracer.logTraceAndId(end, -4);
                         } else {
-                                LumosTracer.logTrace(end + "", "END_STAMP");
+                                LumosTracer.logTrace(end + "", "END_STAMP:");
                         }
                         toggle(false);
-                        HindsightJNI.hindsightEnd();
+                        //System.out.println("ENDING " + contexts.get().recName +", " + contexts.get().recId);
+                        // contexts.get().hstrace.hs_tracecpoint("ENDING....\n".getBytes());
+                        //HSEndTrace();
+                        // contexts.get().hstrace.end
+                        contexts.get().hstrace.endTrace();
+                        // HindsightJNI.hindsightEnd();
+                        contexts.get().hstrace = null;
+                        // HindsightJNI.hindsightEnd();
                 } else {
                         toggle(false);
                         if (ltracer.equals("debug")) {
