@@ -13,7 +13,7 @@ public class LumosRegister{
         public static String ltracer = "";
 
         public static void registerTracer() {
-                ltracer = System.getProperty("Ltracer");
+                ltracer = System.getenv("LTRACER");
                 registerTracer(ltracer);
         }
 
