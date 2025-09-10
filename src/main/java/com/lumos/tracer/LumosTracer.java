@@ -23,8 +23,8 @@ public class LumosTracer {
         public static Tracer tracer;
         public static long XX = 0;
         public static String dir = System.getenv("LUMOS_LOG_DIR");
-        public static boolean noHash = System.getProperty("NoHash") != null;
-        public static String verbose = System.getProperty("verbose");
+        // public static boolean noHash = System.getProperty("NoHash") != null;
+        public static String verbose = System.getenv("VERBOSE");
         static {
                 if(verbose == null){
                         verbose = "debug";
@@ -265,10 +265,10 @@ public class LumosTracer {
         }
 
         public static void startRecording(String recName){
-                if(!System.getProperty("mode").equals("on")){
+                if(!System.getenv("MODE").equals("on")){
                         return;
                 }
-                String ltracer = System.getProperty("Ltracer");
+                String ltracer = System.getenv("LTRACER");
                 toggle(true);
                 if(ltracer.equals("hs")){
                         contexts.get().recName = recName;
@@ -325,10 +325,10 @@ public class LumosTracer {
                 // -4 for end time
                 long end = System.nanoTime();
 
-                if(!System.getProperty("mode").equals("on")){
+                if(!System.getenv("MODE").equals("on")){
                         return;
                 }
-                String ltracer = System.getProperty("Ltracer");
+                String ltracer = System.getenv("LTRACER");
                 if (ltracer.equals("hs") && contexts.get().hstrace != null) {
                         if (verbose.equals("performance")) {
                                 LumosTracer.logTraceAndId(end, -4);
